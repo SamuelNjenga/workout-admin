@@ -14,6 +14,10 @@ export const getRooms = async page => {
   return axios.get(`${API_BASE_URL}/v1/rooms?page=${page}`)
 }
 
+export const updateRoomData = async (id, data) => {
+  return axios.put(`${API_BASE_URL}/v1/rooms/${id}`, data)
+}
+
 export const getServiceTypes = async page => {
   return axios.get(`${API_BASE_URL}/v1/serviceTypes?page=${page}`)
 }
@@ -32,4 +36,16 @@ export const getBookings = async page => {
 
 export const updateUserData = async (id, data) => {
   return axios.put(`${API_BASE_URL}/v1/users/${id}`, data)
+}
+
+export const cancelSession = async data => {
+  return axios.post(`${API_BASE_URL}/v1/trainingSessions/cancel`, data)
+}
+
+export const endSession = async data => {
+  return axios.post(`${API_BASE_URL}/v1/trainingSessions/end`, data)
+}
+
+export const postponeSession = async data => {
+  return axios.post(`${API_BASE_URL}/v1/trainingSessions/postpone`, data)
 }

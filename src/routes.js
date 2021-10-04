@@ -7,6 +7,7 @@ const Typography = React.lazy(() =>
 )
 const Users = React.lazy(() => import('./views/users/Users'))
 const Rooms = React.lazy(() => import('./views/rooms/Rooms'))
+const Room = React.lazy(() => import('./views/rooms/Room'))
 const User = React.lazy(() => import('./views/users/User'))
 const MemberPayments = React.lazy(() =>
   import('./views/payments/MemberPayments')
@@ -60,7 +61,8 @@ const routes = [
     name: 'BookedSessions',
     component: BookedSessions
   },
-  { path: '/users/:id', exact: true, name: 'User Details', component: User }
+  { path: '/users/:id', exact: true, name: 'User Details', component: User },
+  { path: '/rooms/:id', exact: true, name: 'Room Details', component: Room }
 ]
 
 export default routes

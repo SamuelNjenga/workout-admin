@@ -49,7 +49,7 @@ const Rooms = () => {
   //const [page, setPage] = useState(currentPage)
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/users?page=${newPage}`)
+    currentPage !== newPage && history.push(`/rooms?page=${newPage}`)
   }
 
   useEffect(() => {
@@ -75,7 +75,7 @@ const Rooms = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
-              onRowClick={item => history.push(`/users/${item.id}`)}
+              onRowClick={item => history.push(`/rooms/${item.id}`)}
               scopedSlots={{
                 size: item => (
                   <td>

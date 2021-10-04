@@ -69,8 +69,7 @@ const MemberPayments = () => {
                 { key: 'memberId', _classes: 'font-weight-bold' },
                 'amount',
                 { key: 'from', label: 'From Date' },
-                { key: 'to', label: 'Renew Date' },
-                { key: 'MemberRegistration' }
+                { key: 'to', label: 'Renew Date' }
               ]}
               hover
               striped
@@ -104,7 +103,7 @@ const MemberPayments = () => {
             />
             <CPagination
               activePage={page}
-              onActivePageChange={pageChange}
+              onActivePageChange={pageChange(page)}
               pages={5}
               doubleArrows={false}
               align='center'
