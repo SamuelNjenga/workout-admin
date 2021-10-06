@@ -49,3 +49,15 @@ export const endSession = async data => {
 export const postponeSession = async data => {
   return axios.post(`${API_BASE_URL}/v1/trainingSessions/postpone`, data)
 }
+
+export const getMemberRegistrations = async page => {
+  return axios.get(`${API_BASE_URL}/v1/memberRegistrations?page=${page}`)
+}
+
+export const activateUser = async data => {
+  return axios.post(`${API_BASE_URL}/v1/memberRegistrations/activate`, data)
+}
+
+export const diactivateUser = async data => {
+  return axios.post(`${API_BASE_URL}/v1/memberRegistrations/diactivate`, data)
+}

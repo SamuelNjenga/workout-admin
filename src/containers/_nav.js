@@ -67,6 +67,11 @@ const _nav = [
       },
       {
         _tag: 'CSidebarNavItem',
+        name: 'Member Registrations',
+        to: '/registrations'
+      },
+      {
+        _tag: 'CSidebarNavItem',
         name: 'Service Types',
         to: '/serviceTypes'
       },

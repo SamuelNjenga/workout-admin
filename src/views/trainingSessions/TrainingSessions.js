@@ -177,6 +177,7 @@ const TrainingSessions = () => {
                 { key: 'startTime', label: 'Start Time' },
                 { key: 'endTime', label: 'End Time' },
                 { key: 'roomId', label: 'Room Id' },
+                { key: 'state', label: 'Status' },
                 { key: 'trainerId', label: 'Trainer Id' }
               ]}
               hover
@@ -186,6 +187,13 @@ const TrainingSessions = () => {
               clickableRows
               onRowClick={item => history.push(`/users/${item.id}`)}
               scopedSlots={{
+                state: item => (
+                  <td>
+                    <CBadge color={getBadge(item.status)}>
+                      {item.state}
+                    </CBadge>
+                  </td>
+                ),
                 startTime: item => (
                   <td>
                     <CBadge color={getBadge(item.status)}>

@@ -8,6 +8,7 @@ const Typography = React.lazy(() =>
 const Users = React.lazy(() => import('./views/users/Users'))
 const Rooms = React.lazy(() => import('./views/rooms/Rooms'))
 const Room = React.lazy(() => import('./views/rooms/Room'))
+const Registrations = React.lazy(() => import('./views/registrations/Registrations'))
 const User = React.lazy(() => import('./views/users/User'))
 const MemberPayments = React.lazy(() =>
   import('./views/payments/MemberPayments')
@@ -31,6 +32,7 @@ const routes = [
   { path: '/theme/typography', name: 'Typography', component: Typography },
   { path: '/users', exact: true, name: 'Users', component: Users },
   { path: '/rooms', exact: true, name: 'Rooms', component: Rooms },
+  { path: '/registrations', exact: true, name: 'Registrations', component: Registrations },
   {
     path: '/memberPayments',
     exact: true,
