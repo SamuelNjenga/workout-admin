@@ -61,3 +61,7 @@ export const activateUser = async data => {
 export const diactivateUser = async data => {
   return axios.post(`${API_BASE_URL}/v1/memberRegistrations/diactivate`, data)
 }
+
+export const postSession = async data => {
+  return axios.post(`${API_BASE_URL}/v1/trainingSessions`, data)
+}

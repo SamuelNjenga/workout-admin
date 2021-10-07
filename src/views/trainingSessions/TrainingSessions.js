@@ -23,7 +23,8 @@ import { useTrainingSessions } from '../../contexts/TrainingSessionContext'
 import {
   endSession,
   postponeSession,
-  cancelSession
+  cancelSession,
+  postSession
 } from 'src/services/APIUtils'
 
 const getBadge = status => {
@@ -59,6 +60,7 @@ const TrainingSessions = () => {
   const [modalOne, setModalOne] = useState(false)
   const [modalTwo, setModalTwo] = useState(false)
   const [modalThree, setModalThree] = useState(false)
+  const [modalFour, setModalFour] = useState(false)
   const [sessionId, setSessionId] = useState('')
   const [sessionThreeId, setSessionThreeId] = useState('')
   const [item, setItem] = useState({
@@ -67,6 +69,14 @@ const TrainingSessions = () => {
     endTime: ''
   })
 
+  const [session, setSession] = useState({
+    serviceId: '',
+    maxMembers: '',
+    startTime: '',
+    endTime: '',
+    roomId: '',
+    trainerId: ''
+  })
   const toggleOne = () => {
     setModalOne(!modalOne)
   }
@@ -75,6 +85,9 @@ const TrainingSessions = () => {
   }
   const toggleThree = () => {
     setModalThree(!modalThree)
+  }
+  const toggleFour = () => {
+    setModalFour(!modalFour)
   }
 
   const handleChange = event => {
@@ -137,6 +150,25 @@ const TrainingSessions = () => {
     }
   }
 
+  const handleChangeFour = event => {
+    const target = event.target
+    const value = target.value
+    setSession({ ...session, [event.target.name]: value })
+  }
+
+  const handleSubmitFour = async event => {
+    event.preventDefault()
+    //setSubmitting(true)
+    const session1 = { ...session }
+    try {
+      await postSession(session1)
+      //setSubmitting(false)
+      //notify()
+    } catch (err) {
+      console.log(err)
+      //setSubmitting(false)
+    }
+  }
   const {
     trainingSessions,
     isLoading,
@@ -189,9 +221,7 @@ const TrainingSessions = () => {
               scopedSlots={{
                 state: item => (
                   <td>
-                    <CBadge color={getBadge(item.status)}>
-                      {item.state}
-                    </CBadge>
+                    <CBadge color={getBadge(item.status)}>{item.state}</CBadge>
                   </td>
                 ),
                 startTime: item => (
@@ -219,6 +249,9 @@ const TrainingSessions = () => {
             />
           </CCardBody>
         </CCard>
+        <CButton onClick={toggleFour} className='mr-1'>
+          Register Session
+        </CButton>
         <CButton onClick={toggleOne} className='mr-1'>
           Cancel Session
         </CButton>
@@ -312,6 +345,75 @@ const TrainingSessions = () => {
                 Confirm
               </CButton>{' '}
               <CButton color='secondary' onClick={toggleThree}>
+                Cancel
+              </CButton>
+            </CModalFooter>
+          </form>
+        </CModal>
+        <CModal show={modalFour} onClose={toggleFour}>
+          <CModalHeader closeButton>Postpone the session</CModalHeader>
+          <form onSubmit={handleSubmitFour}>
+            <CModalBody>
+              <CLabel htmlFor='sessionId'>Service ID</CLabel>
+              <CInput
+                id='serviceId'
+                placeholder='Enter the service ID'
+                required
+                name='serviceId'
+                onChange={handleChangeFour}
+                value={session.serviceId}
+              />
+              <CLabel htmlFor='maxMembers'>Max Members</CLabel>
+              <CInput
+                id='maxMembers'
+                placeholder='Enter the max members'
+                required
+                name='maxMembers'
+                onChange={handleChangeFour}
+                value={session.maxMembers}
+              />
+              <CLabel htmlFor='startTime'>Time to start</CLabel>
+              <CInput
+                id='startTime'
+                placeholder='Enter the new start time'
+                required
+                name='startTime'
+                onChange={handleChangeFour}
+                value={session.startTime}
+              />
+              <CLabel htmlFor='startTime'>Time to end</CLabel>
+              <CInput
+                id='endTime'
+                placeholder='Enter the new end time'
+                required
+                name='endTime'
+                onChange={handleChangeFour}
+                value={session.endTime}
+              />
+              <CLabel htmlFor='trainerId'>Trainer ID</CLabel>
+              <CInput
+                id='trainerId'
+                placeholder='Enter the trainer ID'
+                required
+                name='trainerId'
+                onChange={handleChangeFour}
+                value={session.trainerId}
+              />
+              <CLabel htmlFor='sessionId'>Room ID</CLabel>
+              <CInput
+                id='roomId'
+                placeholder='Enter the room ID'
+                required
+                name='roomId'
+                onChange={handleChangeFour}
+                value={session.roomId}
+              />
+            </CModalBody>
+            <CModalFooter>
+              <CButton color='primary' type='submit'>
+                Confirm
+              </CButton>{' '}
+              <CButton color='secondary' onClick={toggleFour}>
                 Cancel
               </CButton>
             </CModalFooter>
