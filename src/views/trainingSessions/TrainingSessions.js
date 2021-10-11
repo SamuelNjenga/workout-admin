@@ -18,6 +18,7 @@ import {
   CPagination
 } from '@coreui/react'
 import moment from 'moment'
+import toast, { Toaster } from 'react-hot-toast'
 
 import { useTrainingSessions } from '../../contexts/TrainingSessionContext'
 import {
@@ -55,6 +56,8 @@ const getStatus = status => {
   }
 }
 
+const notify = error => toast(`${error}`)
+
 const TrainingSessions = () => {
   const history = useHistory()
   const [modalOne, setModalOne] = useState(false)
@@ -63,12 +66,12 @@ const TrainingSessions = () => {
   const [modalFour, setModalFour] = useState(false)
   const [sessionId, setSessionId] = useState('')
   const [sessionThreeId, setSessionThreeId] = useState('')
+  const [errOne, setErrorOne] = useState('')
   const [item, setItem] = useState({
     sessionId: '',
     startTime: '',
     endTime: ''
   })
-
   const [session, setSession] = useState({
     serviceId: '',
     maxMembers: '',
@@ -165,7 +168,7 @@ const TrainingSessions = () => {
       //setSubmitting(false)
       //notify()
     } catch (err) {
-      console.log(err)
+      notify(err.response.data.message)
       //setSubmitting(false)
     }
   }
@@ -192,6 +195,7 @@ const TrainingSessions = () => {
     <CRow>
       <CCol xl={6}>
         <CCard>
+          <Toaster />
           <CCardHeader>Training Sessions</CCardHeader>
           <CCardBody>
             <CDataTable
