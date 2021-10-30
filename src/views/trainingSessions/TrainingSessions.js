@@ -184,7 +184,7 @@ const TrainingSessions = () => {
   //const [page, setPage] = useState(currentPage)
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/users?page=${newPage}`)
+    currentPage !== newPage && history.push(`/trainingSessions?page=${newPage}`)
   }
 
   useEffect(() => {

@@ -27,7 +27,7 @@ export const getTrainerProfiles = async page => {
 }
 
 export const getTrainingSessions = async page => {
-  return axios.get(`${API_BASE_URL}/v1/trainingSessions?page=${page}`)
+  return axios.get(`${API_BASE_URL}/v1/trainingSessions/admin?page=${page}`)
 }
 
 export const getBookings = async page => {
@@ -64,4 +64,8 @@ export const diactivateUser = async data => {
 
 export const postSession = async data => {
   return axios.post(`${API_BASE_URL}/v1/trainingSessions`, data)
+}
+
+export const postPayment = async data => {
+  return axios.post(`${API_BASE_URL}/v1/memberPayments`, data)
 }

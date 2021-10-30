@@ -2,9 +2,6 @@ import React from 'react'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
-const Typography = React.lazy(() =>
-  import('./views/theme/typography/Typography')
-)
 const Users = React.lazy(() => import('./views/users/Users'))
 const Rooms = React.lazy(() => import('./views/rooms/Rooms'))
 const Room = React.lazy(() => import('./views/rooms/Room'))
@@ -29,7 +26,6 @@ const BookedSessions = React.lazy(() =>
 const routes = [
   { path: '/', exact: true, name: 'Home' },
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
-  { path: '/theme/typography', name: 'Typography', component: Typography },
   { path: '/users', exact: true, name: 'Users', component: Users },
   { path: '/rooms', exact: true, name: 'Rooms', component: Rooms },
   { path: '/registrations', exact: true, name: 'Registrations', component: Registrations },
