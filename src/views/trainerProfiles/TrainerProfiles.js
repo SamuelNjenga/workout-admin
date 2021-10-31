@@ -8,10 +8,18 @@ import {
   CCol,
   CDataTable,
   CRow,
-  CPagination
+  CPagination,
+  CModal,
+  CModalHeader,
+  CModalBody,
+  CLabel,
+  CInput,
+  CModalFooter,
+  CButton
 } from '@coreui/react'
 
 import { useTrainerProfiles } from 'src/contexts/TrainerProfileContext'
+import { postTrainerProfile } from 'src/services/APIUtils'
 
 const getBadge = status => {
   switch (status) {
@@ -29,6 +37,11 @@ const getBadge = status => {
 }
 
 const TrainerProfiles = () => {
+  const [modalOne, setModalOne] = useState(false)
+  const [item, setItem] = useState({
+    userId: '',
+    specialization: ''
+  })
   const history = useHistory()
   const {
     trainerProfiles,
@@ -49,6 +62,30 @@ const TrainerProfiles = () => {
     currentPage !== page && setPage(currentPage)
   }, [page, currentPage])
 
+  const toggleOne = () => {
+    setModalOne(!modalOne)
+  }
+
+  const handleChange = event => {
+    const target = event.target
+    const value = target.value
+    setItem({ ...item, [event.target.name]: value })
+  }
+
+  const handleSubmit = async event => {
+    event.preventDefault()
+    //setSubmitting(true)
+    const item1 = { ...item }
+    try {
+      await postTrainerProfile(item1)
+      //setSubmitting(false)
+      //notify()
+    } catch (err) {
+      console.log(err)
+      //setSubmitting(false)
+    }
+  }
+
   return (
     <CRow>
       <CCol xl={6}>
@@ -58,7 +95,11 @@ const TrainerProfiles = () => {
             <CDataTable
               items={trainerProfiles}
               fields={[
-                { key: 'id', label: 'Trainer Id', _classes: 'font-weight-bold'},
+                {
+                  key: 'id',
+                  label: 'Trainer Id',
+                  _classes: 'font-weight-bold'
+                },
                 { key: 'specialization' }
               ]}
               hover
@@ -67,7 +108,6 @@ const TrainerProfiles = () => {
               activePage={page}
               clickableRows
               onRowClick={item => history.push(`/users/${item.id}`)}
-              
             />
             <CPagination
               activePage={page}
@@ -78,6 +118,44 @@ const TrainerProfiles = () => {
             />
           </CCardBody>
         </CCard>
+
+        <CButton onClick={toggleOne} className='mr-1'>
+          Register Trainer Profile
+        </CButton>
+
+        <CModal show={modalOne} onClose={toggleOne}>
+          <CModalHeader closeButton>Enter Trainer's Profile</CModalHeader>
+          <form onSubmit={handleSubmit}>
+            <CModalBody>
+              <CLabel htmlFor='userId'>User Id</CLabel>
+              <CInput
+                id='userId'
+                placeholder='Enter the User Id'
+                required
+                name='userId'
+                onChange={handleChange}
+                value={item.userId}
+              />
+              <CLabel htmlFor='specialization'>Specialization Area(s)</CLabel>
+              <CInput
+                id='specialization'
+                placeholder='Enter the specialization area'
+                required
+                name='specialization'
+                onChange={handleChange}
+                value={item.specialization}
+              />
+            </CModalBody>
+            <CModalFooter>
+              <CButton color='primary' type='submit'>
+                Confirm
+              </CButton>{' '}
+              <CButton color='secondary' onClick={toggleOne}>
+                Cancel
+              </CButton>
+            </CModalFooter>
+          </form>
+        </CModal>
       </CCol>
     </CRow>
   )

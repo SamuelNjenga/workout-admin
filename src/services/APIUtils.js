@@ -77,3 +77,12 @@ export const postRoom = async data => {
 export const postMemberRegistration = async data => {
   return axios.post(`${API_BASE_URL}/v1/memberRegistrations`, data)
 }
+
+export const postServiceType = async data => {
+  return axios.post(`${API_BASE_URL}/v1/serviceTypes`, data)
+}
+
+export const postTrainerProfile = async data => {
+  return axios.post(`${API_BASE_URL}/v1/trainerProfiles`, data)
+}
+

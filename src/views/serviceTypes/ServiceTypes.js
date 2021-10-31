@@ -8,10 +8,18 @@ import {
   CCol,
   CDataTable,
   CRow,
-  CPagination
+  CPagination,
+  CButton,
+  CModalFooter,
+  CLabel,
+  CInput,
+  CModalBody,
+  CModalHeader,
+  CModal
 } from '@coreui/react'
 
 import { useServiceTypes } from '../../contexts/ServiceTypeContext'
+import { postServiceType } from 'src/services/APIUtils'
 
 const getBadge = status => {
   switch (status) {
@@ -42,6 +50,12 @@ const getStatus = status => {
 }
 
 const ServiceTypes = () => {
+  const [modalOne, setModalOne] = useState(false)
+  const [item, setItem] = useState({
+    name: '',
+    description: '',
+  })
+
   const history = useHistory()
   const { serviceTypes, isLoading, count, page, setPage } = useServiceTypes()
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
@@ -52,9 +66,33 @@ const ServiceTypes = () => {
     currentPage !== newPage && history.push(`/serviceTypes?page=${newPage}`)
   }
 
+  const toggleOne = () => {
+    setModalOne(!modalOne)
+  }
+
   useEffect(() => {
     currentPage !== page && setPage(currentPage)
   }, [currentPage, page])
+
+  const handleChange = event => {
+    const target = event.target
+    const value = target.value
+    setItem({ ...item, [event.target.name]: value })
+  }
+
+  const handleSubmit = async event => {
+    event.preventDefault()
+    //setSubmitting(true)
+    const item1 = { ...item }
+    try {
+      await postServiceType(item1)
+      //setSubmitting(false)
+      //notify()
+    } catch (err) {
+      console.log(err)
+      //setSubmitting(false)
+    }
+  }
 
   return (
     <CRow>
@@ -82,9 +120,7 @@ const ServiceTypes = () => {
               scopedSlots={{
                 name: item => (
                   <td>
-                    <CBadge color={getBadge(item.status)}>
-                      {item.name}
-                    </CBadge>
+                    <CBadge color={getBadge(item.status)}>{item.name}</CBadge>
                   </td>
                 )
               }}
@@ -98,6 +134,43 @@ const ServiceTypes = () => {
             />
           </CCardBody>
         </CCard>
+        <CButton onClick={toggleOne} className='mr-1'>
+          Register Service Type
+        </CButton>
+
+        <CModal show={modalOne} onClose={toggleOne}>
+          <CModalHeader closeButton>Register Service Type</CModalHeader>
+          <form onSubmit={handleSubmit}>
+            <CModalBody>
+              <CLabel htmlFor='name'>Service Name</CLabel>
+              <CInput
+                id='name'
+                placeholder='Enter the Service Name'
+                required
+                name='name'
+                onChange={handleChange}
+                value={item.name}
+              />
+              <CLabel htmlFor='description'>Service Description</CLabel>
+              <CInput
+                id='description'
+                placeholder='Enter the Service Description'
+                required
+                name='description'
+                onChange={handleChange}
+                value={item.description}
+              />
+            </CModalBody>
+            <CModalFooter>
+              <CButton color='primary' type='submit'>
+                Confirm
+              </CButton>{' '}
+              <CButton color='secondary' onClick={toggleOne}>
+                Cancel
+              </CButton>
+            </CModalFooter>
+          </form>
+        </CModal>
       </CCol>
     </CRow>
   )
