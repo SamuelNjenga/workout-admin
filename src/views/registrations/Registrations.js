@@ -19,7 +19,11 @@ import {
 } from '@coreui/react'
 
 import { useRegistrations } from '../../contexts/RegistrationContext'
-import { activateUser, diactivateUser } from 'src/services/APIUtils'
+import {
+  activateUser,
+  diactivateUser,
+  postMemberRegistration
+} from 'src/services/APIUtils'
 
 const getBadge = status => {
   switch (status) {
@@ -57,14 +61,19 @@ const Registrations = () => {
   //const [page, setPage] = useState(currentPage)
   const [modalOne, setModalOne] = useState(false)
   const [modalTwo, setModalTwo] = useState(false)
+  const [modalThree, setModalThree] = useState(false)
   const [sessionId, setSessionId] = useState('')
   const [sessionThreeId, setSessionThreeId] = useState('')
+  const [userId, setUserId] = useState('')
 
   const toggleOne = () => {
     setModalOne(!modalOne)
   }
   const toggleTwo = () => {
     setModalTwo(!modalTwo)
+  }
+  const toggleUser = () => {
+    setModalThree(!modalThree)
   }
 
   const pageChange = newPage => {
@@ -74,6 +83,26 @@ const Registrations = () => {
   useEffect(() => {
     currentPage !== page && setPage(currentPage)
   }, [currentPage, page])
+
+  const handleUserChange = event => {
+    event.persist()
+    const target = event.target
+    const value = target.value
+    setUserId(value)
+  }
+
+  const handleUserSubmit = async event => {
+    event.preventDefault()
+    //setSubmitting(true)
+    try {
+      await postMemberRegistration({ userId: userId })
+      //setSubmitting(false)
+      //notify()
+    } catch (err) {
+      console.log(err)
+      //setSubmitting(false)
+    }
+  }
 
   const handleChangeThree = event => {
     event.persist()
@@ -154,11 +183,14 @@ const Registrations = () => {
             />
           </CCardBody>
         </CCard>
+        <CButton onClick={toggleUser} className='mr-1'>
+          Register User
+        </CButton>
         <CButton onClick={toggleOne} className='mr-1'>
-          Activate User
+          Activate Member
         </CButton>
         <CButton onClick={toggleTwo} className='mr-1'>
-          Diactivate User
+          Diactivate Member
         </CButton>
         <CModal show={modalOne} onClose={toggleOne}>
           <CModalHeader closeButton>Activate the member</CModalHeader>
@@ -201,6 +233,29 @@ const Registrations = () => {
                 Confirm
               </CButton>{' '}
               <CButton color='secondary' onClick={toggleTwo}>
+                Cancel
+              </CButton>
+            </CModalFooter>
+          </form>
+        </CModal>
+        <CModal show={modalThree} onClose={toggleUser}>
+          <CModalHeader closeButton>Register the member</CModalHeader>
+          <form onSubmit={handleUserSubmit}>
+            <CModalBody>
+              <CLabel htmlFor='userId'>User ID</CLabel>
+              <CInput
+                id='userId'
+                placeholder='Enter the user ID'
+                required
+                onChange={handleUserChange}
+                value={userId}
+              />
+            </CModalBody>
+            <CModalFooter>
+              <CButton color='primary' type='submit'>
+                Confirm
+              </CButton>{' '}
+              <CButton color='secondary' onClick={toggleUser}>
                 Cancel
               </CButton>
             </CModalFooter>

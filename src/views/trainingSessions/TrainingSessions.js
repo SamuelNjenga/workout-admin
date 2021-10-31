@@ -355,7 +355,7 @@ const TrainingSessions = () => {
           </form>
         </CModal>
         <CModal show={modalFour} onClose={toggleFour}>
-          <CModalHeader closeButton>Postpone the session</CModalHeader>
+          <CModalHeader closeButton>Register the session</CModalHeader>
           <form onSubmit={handleSubmitFour}>
             <CModalBody>
               <CLabel htmlFor='sessionId'>Service ID</CLabel>

@@ -20,7 +20,7 @@ import {
 import moment from 'moment'
 
 import { usePayments } from '../../contexts/PaymentContext'
-import { postPayment} from 'src/services/APIUtils'
+import { postPayment } from 'src/services/APIUtils'
 
 const getBadge = status => {
   switch (status) {
@@ -65,7 +65,7 @@ const MemberPayments = () => {
   //const [page, setPage] = useState(currentPage)
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/users?page=${newPage}`)
+    currentPage !== newPage && history.push(`/memberPayments?page=${newPage}`)
   }
 
   const toggleOne = () => {
@@ -77,24 +77,24 @@ const MemberPayments = () => {
   }, [currentPage, page])
 
   const handleChangeTwo = event => {
-  const target = event.target
-  const value = target.value
-  setItem({ ...item, [event.target.name]: value })
-}
-
-const handleSubmitTwo = async event => {
-  event.preventDefault()
-  //setSubmitting(true)
-  const item1 = { ...item }
-  try {
-    await postPayment(item1)
-    //setSubmitting(false)
-    //notify()
-  } catch (err) {
-    console.log(err)
-    //setSubmitting(false)
+    const target = event.target
+    const value = target.value
+    setItem({ ...item, [event.target.name]: value })
   }
-}
+
+  const handleSubmitTwo = async event => {
+    event.preventDefault()
+    //setSubmitting(true)
+    const item1 = { ...item }
+    try {
+      await postPayment(item1)
+      //setSubmitting(false)
+      //notify()
+    } catch (err) {
+      console.log(err)
+      //setSubmitting(false)
+    }
+  }
 
   return (
     <CRow>
@@ -142,7 +142,7 @@ const handleSubmitTwo = async event => {
             />
             <CPagination
               activePage={page}
-              onActivePageChange={pageChange(page)}
+              onActivePageChange={pageChange}
               pages={5}
               doubleArrows={false}
               align='center'

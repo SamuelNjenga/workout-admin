@@ -8,10 +8,18 @@ import {
   CCol,
   CDataTable,
   CRow,
-  CPagination
+  CPagination,
+  CButton,
+  CModalFooter,
+  CLabel,
+  CInput,
+  CModal,
+  CModalHeader,
+  CModalBody
 } from '@coreui/react'
 
 import { useRooms } from '../../contexts/RoomContext'
+import { postRoom } from 'src/services/APIUtils'
 
 const getBadge = status => {
   switch (status) {
@@ -42,6 +50,13 @@ const getStatus = status => {
 }
 
 const Rooms = () => {
+  const [modalOne, setModalOne] = useState(false)
+  const [item, setItem] = useState({
+    memberId: '',
+    amount: '',
+    from: '',
+    to: ''
+  })
   const history = useHistory()
   const { rooms, isLoading, count, page, setPage } = useRooms()
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
@@ -52,10 +67,33 @@ const Rooms = () => {
     currentPage !== newPage && history.push(`/rooms?page=${newPage}`)
   }
 
+  const toggleOne = () => {
+    setModalOne(!modalOne)
+  }
+
   useEffect(() => {
     currentPage !== page && setPage(currentPage)
   }, [currentPage, page])
 
+  const handleChangeOne = event => {
+  const target = event.target
+  const value = target.value
+  setItem({ ...item, [event.target.name]: value })
+}
+
+const handleSubmitOne = async event => {
+  event.preventDefault()
+  //setSubmitting(true)
+  const item1 = { ...item }
+  try {
+    await postRoom(item1)
+    //setSubmitting(false)
+    //notify()
+  } catch (err) {
+    console.log(err)
+    //setSubmitting(false)
+  }
+}
   return (
     <CRow>
       <CCol xl={6}>
@@ -65,10 +103,10 @@ const Rooms = () => {
             <CDataTable
               items={rooms}
               fields={[
-                { key: 'id', _classes: 'font-weight-bold' ,label:'Room ID'},
+                { key: 'id', _classes: 'font-weight-bold', label: 'Room ID' },
                 { key: 'label', label: 'Room Name' },
                 { key: 'size', label: 'Room Size' },
-                {key: 'available', label: 'Is Available'}
+                { key: 'available', label: 'Is Available' }
               ]}
               hover
               striped
@@ -95,6 +133,43 @@ const Rooms = () => {
             />
           </CCardBody>
         </CCard>
+        <CButton onClick={toggleOne} className='mr-1'>
+          Register Room
+        </CButton>
+
+        <CModal show={modalOne} onClose={toggleOne}>
+          <CModalHeader closeButton>Register Room</CModalHeader>
+          <form onSubmit={handleSubmitOne}>
+            <CModalBody>
+              <CLabel htmlFor='label'>Room Label</CLabel>
+              <CInput
+                id='label'
+                placeholder='Enter the Room Label'
+                required
+                name='label'
+                onChange={handleChangeOne}
+                value={item.label}
+              />
+              <CLabel htmlFor='size'>Room Size</CLabel>
+              <CInput
+                id='size'
+                placeholder='Enter the room size'
+                required
+                name='size'
+                onChange={handleChangeOne}
+                value={item.size}
+              />
+            </CModalBody>
+            <CModalFooter>
+              <CButton color='primary' type='submit'>
+                Confirm
+              </CButton>{' '}
+              <CButton color='secondary' onClick={toggleOne}>
+                Cancel
+              </CButton>
+            </CModalFooter>
+          </form>
+        </CModal>
       </CCol>
     </CRow>
   )
