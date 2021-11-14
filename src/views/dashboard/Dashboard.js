@@ -1,8 +1,7 @@
-import React, { lazy } from 'react'
+import React, { useState, useEffect } from 'react'
 import {
   CBadge,
   CButton,
-  CButtonGroup,
   CCard,
   CCardBody,
   CCardFooter,
@@ -14,7 +13,35 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
+import { getTotalAmount, getTotalUsers } from 'src/services/APIUtils'
+
 const Dashboard = () => {
+  const [total, setTotal] = useState(0)
+  const [users, setUsers] = useState(0)
+
+  const getTotal = async () => {
+    try {
+      const res = await getTotalAmount()
+      setTotal(res?.data[0]?.total_amount)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  const getUsers = async () => {
+    try {
+      const res = await getTotalUsers()
+      setUsers(res?.data[0]?.total_users)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
+  useEffect(() => {
+    getTotal()
+    getUsers()
+  }, [])
+
   return (
     <>
       <CCard>
@@ -46,8 +73,8 @@ const Dashboard = () => {
               />
             </CCol>
             <CCol md sm='12' className='mb-sm-2 mb-0'>
-              <div className='text-muted'>Amount Made</div>
-              <strong>78.706 Views (60%)</strong>
+              <div className='text-muted'>Total Amount Made So Far</div>
+              <strong>KSH {total}</strong>
               <CProgress
                 className='progress-xs mt-2'
                 precision={1}
@@ -56,8 +83,8 @@ const Dashboard = () => {
               />
             </CCol>
             <CCol md sm='12' className='mb-sm-2 mb-0'>
-              <div className='text-muted'>New Users</div>
-              <strong>22.123 Users (80%)</strong>
+              <div className='text-muted'>Number Of Users</div>
+              <strong>{users} Users</strong>
               <CProgress
                 className='progress-xs mt-2'
                 precision={1}
