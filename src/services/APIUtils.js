@@ -54,6 +54,10 @@ export const getMemberRegistrations = async page => {
   return axios.get(`${API_BASE_URL}/v1/memberRegistrations?page=${page}`)
 }
 
+export const updateMemberRegistrationData = async (id, data) => {
+  return axios.put(`${API_BASE_URL}/v1/memberRegistrations/${id}`, data)
+}
+
 export const activateUser = async data => {
   return axios.post(`${API_BASE_URL}/v1/memberRegistrations/activate`, data)
 }

@@ -165,7 +165,7 @@ const Registrations = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
-              onRowClick={item => history.push(`/rooms/${item.id}`)}
+              onRowClick={item => history.push(`/registrations/${item.id}`)}
               scopedSlots={{
                 status: item => (
                   <td>
