@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+
 import {
   CBadge,
   CButton,
@@ -13,11 +14,16 @@ import {
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
-import { getTotalAmount, getTotalUsers } from 'src/services/APIUtils'
+import {
+  getTotalAmount,
+  getTotalUsers,
+  getTotalUsersByCategory
+} from 'src/services/APIUtils'
 
 const Dashboard = () => {
   const [total, setTotal] = useState(0)
   const [users, setUsers] = useState(0)
+  const [userCategories, setUserCategories] = useState([])
 
   const getTotal = async () => {
     try {
@@ -37,9 +43,19 @@ const Dashboard = () => {
     }
   }
 
+  const getUsersByCategory = async () => {
+    try {
+      const res = await getTotalUsersByCategory()
+      setUserCategories(res?.data)
+    } catch (err) {
+      console.log(err)
+    }
+  }
+
   useEffect(() => {
     getTotal()
     getUsers()
+    getUsersByCategory()
   }, [])
 
   return (
@@ -91,6 +107,14 @@ const Dashboard = () => {
                 color='danger'
                 value={40}
               />
+              {userCategories.map(item => (
+                <React.Fragment>
+                  <div className='text-muted'>{item.Role.roleName}</div>
+                  <strong>
+                    {item.total_count} {item.Role.roleName}(s)
+                  </strong>
+                </React.Fragment>
+              ))}
             </CCol>
           </CRow>
         </CCardFooter>

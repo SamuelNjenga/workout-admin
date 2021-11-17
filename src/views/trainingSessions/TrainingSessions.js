@@ -56,7 +56,15 @@ const getStatus = status => {
   }
 }
 
-const notify = error => toast(`${error}`)
+const notify = error => toast.error(`${error}`)
+const successNotification = () =>
+  toast.success('Session registered successfully.')
+const cancelNotification = sessionId =>
+  toast.success(`Session ${sessionId} has been cancelled successfully.`)
+const endNotification = sessionId =>
+  toast.success(`Session ${sessionId} has been ended successfully.`)
+const postponeNotification = sessionId =>
+  toast.success(`Session ${sessionId} has been postponed successfully.`)
 
 const TrainingSessions = () => {
   const history = useHistory()
@@ -66,26 +74,34 @@ const TrainingSessions = () => {
   const [modalFour, setModalFour] = useState(false)
   const [sessionId, setSessionId] = useState('')
   const [sessionThreeId, setSessionThreeId] = useState('')
+
   const [errOne, setErrorOne] = useState('')
+
   const [item, setItem] = useState({
     sessionId: '',
     startTime: '',
-    endTime: ''
+    endTime: '',
+    roomId: '',
+    trainerId: ''
   })
+
   const [session, setSession] = useState({
     serviceId: '',
     maxMembers: '',
     startTime: '',
     endTime: '',
     roomId: '',
-    trainerId: ''
+    trainerId: '',
+    image: ''
   })
+
   const toggleOne = () => {
     setModalOne(!modalOne)
   }
   const toggleTwo = () => {
     setModalTwo(!modalTwo)
   }
+
   const toggleThree = () => {
     setModalThree(!modalThree)
   }
@@ -106,7 +122,7 @@ const TrainingSessions = () => {
     try {
       await cancelSession({ sessionId })
       //setSubmitting(false)
-      //notify()
+      cancelNotification(sessionId)
     } catch (err) {
       console.log(err)
       //setSubmitting(false)
@@ -126,10 +142,9 @@ const TrainingSessions = () => {
     try {
       await postponeSession(item1)
       //setSubmitting(false)
-      //notify()
+      postponeNotification(item1.sessionId)
     } catch (err) {
-      console.log(err)
-      //setSubmitting(false)
+      notify(err.response.data.message)
     }
   }
 
@@ -146,7 +161,7 @@ const TrainingSessions = () => {
     try {
       await endSession({ sessionId: sessionThreeId })
       //setSubmitting(false)
-      //notify()
+      endNotification(sessionThreeId)
     } catch (err) {
       console.log(err)
       //setSubmitting(false)
@@ -158,7 +173,6 @@ const TrainingSessions = () => {
     const value = target.value
     setSession({ ...session, [event.target.name]: value })
   }
-
   const handleSubmitFour = async event => {
     event.preventDefault()
     //setSubmitting(true)
@@ -166,12 +180,13 @@ const TrainingSessions = () => {
     try {
       await postSession(session1)
       //setSubmitting(false)
-      //notify()
+      successNotification()
     } catch (err) {
       notify(err.response.data.message)
       //setSubmitting(false)
     }
   }
+
   const {
     trainingSessions,
     isLoading,
@@ -320,6 +335,24 @@ const TrainingSessions = () => {
                 onChange={handleChangeTwo}
                 value={item.endTime}
               />
+              <CLabel htmlFor='sessionId'>Room ID</CLabel>
+              <CInput
+                id='roomId'
+                placeholder='Enter the room ID'
+                required
+                name='roomId'
+                onChange={handleChangeTwo}
+                value={item.roomId}
+              />
+              <CLabel htmlFor='trainerId'>Trainer ID</CLabel>
+              <CInput
+                id='trainerId'
+                placeholder='Enter the trainer ID'
+                required
+                name='trainerId'
+                onChange={handleChangeTwo}
+                value={item.trainerId}
+              />
             </CModalBody>
             <CModalFooter>
               <CButton color='primary' type='submit'>
@@ -411,6 +444,15 @@ const TrainingSessions = () => {
                 name='roomId'
                 onChange={handleChangeFour}
                 value={session.roomId}
+              />
+              <CLabel htmlFor='sessionId'>Image</CLabel>
+              <CInput
+                id='image'
+                placeholder='Enter the session image'
+                required
+                name='image'
+                onChange={handleChangeFour}
+                value={session.image}
               />
             </CModalBody>
             <CModalFooter>

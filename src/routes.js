@@ -7,6 +7,7 @@ const Rooms = React.lazy(() => import('./views/rooms/Rooms'))
 const Room = React.lazy(() => import('./views/rooms/Room'))
 const Registrations = React.lazy(() => import('./views/registrations/Registrations'))
 const User = React.lazy(() => import('./views/users/User'))
+const Payment = React.lazy(() => import('./views/payments/MemberPayment'))
 const MemberPayments = React.lazy(() =>
   import('./views/payments/MemberPayments')
 )
@@ -60,7 +61,8 @@ const routes = [
     component: BookedSessions
   },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
-  { path: '/rooms/:id', exact: true, name: 'Room Details', component: Room }
+  { path: '/rooms/:id', exact: true, name: 'Room Details', component: Room },
+  { path: '/memberPayments/:id', exact: true, name: 'Payment Details', component: Payment }
 ]
 
 export default routes

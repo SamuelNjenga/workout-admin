@@ -70,6 +70,10 @@ export const postPayment = async data => {
   return axios.post(`${API_BASE_URL}/v1/memberPayments`, data)
 }
 
+export const updatePaymentData = async (id, data) => {
+  return axios.put(`${API_BASE_URL}/v1/memberPayments/${id}`, data)
+}
+
 export const postRoom = async data => {
   return axios.post(`${API_BASE_URL}/v1/rooms`, data)
 }
@@ -92,4 +96,8 @@ export const getTotalAmount = async () => {
 
 export const getTotalUsers = async () => {
   return axios.get(`${API_BASE_URL}/v1/users/total`)
+}
+
+export const getTotalUsersByCategory = async () => {
+  return axios.get(`${API_BASE_URL}/v1/users/total/categories`)
 }

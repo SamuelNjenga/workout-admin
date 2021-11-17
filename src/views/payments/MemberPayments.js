@@ -115,7 +115,7 @@ const MemberPayments = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
-              onRowClick={item => history.push(`/users/${item.id}`)}
+              onRowClick={item => history.push(`/memberPayments/${item.id}`)}
               scopedSlots={{
                 MemberRegistration: item => (
                   <td>
