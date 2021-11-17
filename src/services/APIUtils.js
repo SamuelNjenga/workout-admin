@@ -98,6 +98,10 @@ export const postTrainerProfile = async data => {
   return axios.post(`${API_BASE_URL}/v1/trainerProfiles`, data)
 }
 
+export const updateTrainerProfileData = async (id, data) => {
+  return axios.put(`${API_BASE_URL}/v1/trainerProfiles/${id}`, data)
+}
+
 export const getTotalAmount = async () => {
   return axios.get(`${API_BASE_URL}/v1/memberPayments/amount`)
 }

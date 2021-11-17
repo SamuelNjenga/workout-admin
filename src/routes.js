@@ -6,6 +6,7 @@ const Users = React.lazy(() => import('./views/users/Users'))
 const Rooms = React.lazy(() => import('./views/rooms/Rooms'))
 const Room = React.lazy(() => import('./views/rooms/Room'))
 const ServiceType = React.lazy(() => import('./views/serviceTypes/ServiceType'))
+const TrainerProfile = React.lazy(() => import('./views/trainerProfiles/TrainerProfile'))
 const Registrations = React.lazy(() =>
   import('./views/registrations/Registrations')
 )
@@ -90,6 +91,12 @@ const routes = [
     exact: true,
     name: 'Service Type Details',
     component: ServiceType
+  },
+  {
+    path: '/trainerProfiles/:id',
+    exact: true,
+    name: 'Trainer Profile Details',
+    component: TrainerProfile
   }
 ]
 

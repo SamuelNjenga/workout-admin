@@ -55,7 +55,7 @@ const TrainerProfiles = () => {
   //const [page, setPage] = useState(currentPage)
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/users?page=${newPage}`)
+    currentPage !== newPage && history.push(`/trainerProfiles?page=${newPage}`)
   }
 
   useEffect(() => {
@@ -107,7 +107,7 @@ const TrainerProfiles = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
-              onRowClick={item => history.push(`/users/${item.id}`)}
+              onRowClick={item => history.push(`/trainerProfiles/${item.id}`)}
             />
             <CPagination
               activePage={page}
