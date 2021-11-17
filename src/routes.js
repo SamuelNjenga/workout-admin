@@ -5,10 +5,15 @@ const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 const Users = React.lazy(() => import('./views/users/Users'))
 const Rooms = React.lazy(() => import('./views/rooms/Rooms'))
 const Room = React.lazy(() => import('./views/rooms/Room'))
-const Registrations = React.lazy(() => import('./views/registrations/Registrations'))
+const ServiceType = React.lazy(() => import('./views/serviceTypes/ServiceType'))
+const Registrations = React.lazy(() =>
+  import('./views/registrations/Registrations')
+)
 const User = React.lazy(() => import('./views/users/User'))
 const Payment = React.lazy(() => import('./views/payments/MemberPayment'))
-const Registration = React.lazy(() => import('./views/registrations/Registration'))
+const Registration = React.lazy(() =>
+  import('./views/registrations/Registration')
+)
 const MemberPayments = React.lazy(() =>
   import('./views/payments/MemberPayments')
 )
@@ -30,7 +35,12 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/users', exact: true, name: 'Users', component: Users },
   { path: '/rooms', exact: true, name: 'Rooms', component: Rooms },
-  { path: '/registrations', exact: true, name: 'Registrations', component: Registrations },
+  {
+    path: '/registrations',
+    exact: true,
+    name: 'Registrations',
+    component: Registrations
+  },
   {
     path: '/memberPayments',
     exact: true,
@@ -63,8 +73,24 @@ const routes = [
   },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/rooms/:id', exact: true, name: 'Room Details', component: Room },
-  { path: '/memberPayments/:id', exact: true, name: 'Payment Details', component: Payment },
-  { path: '/registrations/:id', exact: true, name: 'Registration Details', component: Registration }
+  {
+    path: '/memberPayments/:id',
+    exact: true,
+    name: 'Payment Details',
+    component: Payment
+  },
+  {
+    path: '/registrations/:id',
+    exact: true,
+    name: 'Registration Details',
+    component: Registration
+  },
+  {
+    path: '/serviceTypes/:id',
+    exact: true,
+    name: 'Service Type Details',
+    component: ServiceType
+  }
 ]
 
 export default routes

@@ -90,6 +90,10 @@ export const postServiceType = async data => {
   return axios.post(`${API_BASE_URL}/v1/serviceTypes`, data)
 }
 
+export const updateServiceTypeData = async (id, data) => {
+  return axios.put(`${API_BASE_URL}/v1/serviceTypes/${id}`, data)
+}
+
 export const postTrainerProfile = async data => {
   return axios.post(`${API_BASE_URL}/v1/trainerProfiles`, data)
 }

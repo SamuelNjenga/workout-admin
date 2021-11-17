@@ -116,7 +116,7 @@ const ServiceTypes = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
-              onRowClick={item => history.push(`/users/${item.id}`)}
+              onRowClick={item => history.push(`/serviceTypes/${item.id}`)}
               scopedSlots={{
                 name: item => (
                   <td>
