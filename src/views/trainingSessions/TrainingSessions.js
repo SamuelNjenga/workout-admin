@@ -236,7 +236,7 @@ const TrainingSessions = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
-              onRowClick={item => history.push(`/users/${item.id}`)}
+              onRowClick={item => history.push(`/trainingSessions/${item.id}`)}
               scopedSlots={{
                 state: item => (
                   <td>

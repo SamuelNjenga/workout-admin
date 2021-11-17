@@ -32,6 +32,9 @@ const TrainerProfiles = React.lazy(() =>
 const TrainingSessions = React.lazy(() =>
   import('./views/trainingSessions/TrainingSessions.js')
 )
+const TrainingSession = React.lazy(() =>
+  import('./views/trainingSessions/TrainingSession.js')
+)
 const BookedSessions = React.lazy(() =>
   import('./views/bookedSessions/BookedSessions.js')
 )
@@ -108,6 +111,12 @@ const routes = [
     exact: true,
     name: 'Booked Session Details',
     component: BookedSession
+  },
+  {
+    path: '/trainingSessions/:id',
+    exact: true,
+    name: 'Training Session Details',
+    component: TrainingSession
   }
 ]
 

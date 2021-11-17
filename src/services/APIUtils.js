@@ -30,6 +30,10 @@ export const getTrainingSessions = async page => {
   return axios.get(`${API_BASE_URL}/v1/trainingSessions/admin?page=${page}`)
 }
 
+export const updateTrainingSessionData = async (id, data) => {
+  return axios.put(`${API_BASE_URL}/v1/trainingSessions/${id}`, data)
+}
+
 export const getBookings = async page => {
   return axios.get(`${API_BASE_URL}/v1/bookings?page=${page}`)
 }
