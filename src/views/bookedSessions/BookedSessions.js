@@ -79,7 +79,7 @@ const BookedSessions = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
-              onRowClick={item => history.push(`/users/${item.id}`)}
+              onRowClick={item => history.push(`/bookedSessions/${item.id}`)}
               scopedSlots={{
                 status: item => (
                   <td>

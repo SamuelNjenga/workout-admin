@@ -34,6 +34,10 @@ export const getBookings = async page => {
   return axios.get(`${API_BASE_URL}/v1/bookings?page=${page}`)
 }
 
+export const updateBookingData = async (id, data) => {
+  return axios.put(`${API_BASE_URL}/v1/bookings/${id}`, data)
+}
+
 export const updateUserData = async (id, data) => {
   return axios.put(`${API_BASE_URL}/v1/users/${id}`, data)
 }
