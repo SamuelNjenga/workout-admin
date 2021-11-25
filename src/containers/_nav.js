@@ -9,36 +9,31 @@ const _nav = [
     icon: <CIcon name='cil-speedometer' customClasses='c-sidebar-nav-icon' />,
     badge: {
       color: 'info',
-      text: 'NEW'
+      text: 'Welcome'
     }
   },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['Components']
-  },
-  {
-    _tag: 'CSidebarNavDivider'
-  },
-  {
-    _tag: 'CSidebarNavTitle',
-    _children: ['Extras']
-  },
+  // {
+  //   _tag: 'CSidebarNavTitle',
+  //   _children: ['Components']
+  // },
+  // {
+  //   _tag: 'CSidebarNavDivider'
+  // },
+  // {
+  //   _tag: 'CSidebarNavTitle',
+  //   _children: ['Extras']
+  // },
   {
     _tag: 'CSidebarNavDropdown',
-    name: 'Pages',
+    name: 'Components',
     route: '/pages',
     icon: 'cil-star',
     _children: [
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Login',
-        to: '/login'
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Register',
-        to: '/register'
-      },
+      // {
+      //   _tag: 'CSidebarNavItem',
+      //   name: 'Register',
+      //   to: '/register'
+      // },
       {
         _tag: 'CSidebarNavItem',
         name: 'Member Payments',
@@ -86,17 +81,17 @@ const _nav = [
       }
     ]
   },
-  {
-    _tag: 'CSidebarNavItem',
-    name: 'Disabled',
-    icon: 'cil-ban',
-    badge: {
-      color: 'secondary',
-      text: 'NEW'
-    },
-    addLinkClass: 'c-disabled',
-    disabled: true
-  },
+  // {
+  //   _tag: 'CSidebarNavItem',
+  //   name: 'Disabled',
+  //   icon: 'cil-ban',
+  //   badge: {
+  //     color: 'secondary',
+  //     text: 'NEW'
+  //   },
+  //   addLinkClass: 'c-disabled',
+  //   disabled: true
+  // },
   {
     _tag: 'CSidebarNavDivider',
     className: 'm-2'

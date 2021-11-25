@@ -8,7 +8,9 @@ import { ServiceTypeProvider } from './contexts/ServiceTypeContext'
 import { TrainerProfileProvider } from './contexts/TrainerProfileContext'
 import { TrainingSessionProvider } from './contexts/TrainingSessionContext'
 import { BookingProvider } from './contexts/BookingContext'
+import { LoginProvider } from './contexts/LoginContext'
 import { RegistrationProvider } from './contexts/RegistrationContext'
+import PrivateRoute from './PrivateRoute'
 
 import './scss/style.scss'
 
@@ -27,9 +29,11 @@ const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
+
 class App extends Component {
   render () {
     return (
+      <LoginProvider>
       <PaymentProvider>
         <UserProvider>
           <RoomProvider>
@@ -65,11 +69,17 @@ class App extends Component {
                               name='Page 500'
                               render={props => <Page500 {...props} />}
                             />
-                            <Route
+                            <PrivateRoute
                               path='/'
                               name='Home'
                               render={props => <TheLayout {...props} />}
                             />
+                            {/* <PrivateRoute
+                              path='/'
+                              name='Home'
+                              exact={true}
+                               render={props => <TheLayout {...props} />}
+                            /> */}
                           </Switch>
                         </React.Suspense>
                       </HashRouter>
@@ -81,6 +91,7 @@ class App extends Component {
           </RoomProvider>
         </UserProvider>
       </PaymentProvider>
+      </LoginProvider>
     )
   }
 }

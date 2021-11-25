@@ -1,27 +1,21 @@
 import React from 'react'
-import {
-  CBadge,
-  CDropdown,
-  CDropdownItem,
-  CDropdownMenu,
-  CDropdownToggle
-} from '@coreui/react'
+import { CBadge, CDropdown, CDropdownItem, CDropdownMenu } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
 const TheHeaderDropdownNotif = () => {
-  const itemsCount = 5
+  const firstName = localStorage.getItem('fname')
   return (
     <CDropdown inNav className='c-header-nav-item mx-2'>
-      <CDropdownToggle className='c-header-nav-link' caret={false}>
-        <CIcon name='cil-bell' />
-        <CBadge shape='pill' color='danger'>
-          {itemsCount}
-        </CBadge>
-      </CDropdownToggle>
+      {/* <CDropdownToggle className='c-header-nav-link' caret={false}>
+        <CIcon name='cil-bell' /> */}
+      <CBadge shape='pill' color='danger'>
+        Hello {firstName}
+      </CBadge>
+      {/* </CDropdownToggle> */}
       <CDropdownMenu placement='bottom-end' className='pt-0'>
-        <CDropdownItem header tag='div' className='text-center' color='light'>
+        {/* <CDropdownItem header tag='div' className='text-center' color='light'>
           <strong>You have {itemsCount} notifications</strong>
-        </CDropdownItem>
+        </CDropdownItem> */}
         <CDropdownItem>
           <CIcon name='cil-user-follow' className='mr-2 text-success' /> New
           user registered

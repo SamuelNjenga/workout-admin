@@ -1,9 +1,13 @@
 import React, { useState } from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import toast, { Toaster } from 'react-hot-toast'
 
 import { useUsers } from 'src/contexts/UserContext'
 import { updateUserData } from 'src/services/APIUtils'
+
+const editNotification = userName =>
+  toast.success(`User ${userName} has been edited successfully.`)
 
 const User = ({ match }) => {
   const { users, isLoading, count, page, setPage } = useUsers()
@@ -31,7 +35,7 @@ const User = ({ match }) => {
       await updateUserData(match.params.id, item1)
       //await postContact({ ...item })
       //setSubmitting(false)
-      //notify()
+      editNotification(item1.firstName)
       console.log('Hitted', item1)
     } catch (err) {
       console.log(err)
@@ -57,6 +61,7 @@ const User = ({ match }) => {
     <CRow>
       <CCol lg={6}>
         <CCard>
+        <Toaster />
           <CCardHeader>User id: {match.params.id}</CCardHeader>
           <CCardBody>
             <form onSubmit={handleSubmit}>

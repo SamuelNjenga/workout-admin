@@ -121,3 +121,11 @@ export const getTotalUsers = async () => {
 export const getTotalUsersByCategory = async () => {
   return axios.get(`${API_BASE_URL}/v1/users/total/categories`)
 }
+
+export const postAdminLogin = async data => {
+  return axios.post(`${API_BASE_URL}/v1/user/adminLogin`, data)
+}
+
+export const postUserRegistration = async values => {
+  return axios.post(`${API_BASE_URL}/v1/users/register`, values)
+}
