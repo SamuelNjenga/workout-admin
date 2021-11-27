@@ -10,6 +10,7 @@ const editNotification = userName =>
   toast.success(`User ${userName} has been edited successfully.`)
 
 const User = ({ match }) => {
+  
   const { users, isLoading, count, page, setPage } = useUsers()
   // const [item, setItem] = useState({
   //   firstName: '',

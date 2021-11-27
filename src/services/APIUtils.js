@@ -6,6 +6,10 @@ export const getMemberPayments = async page => {
   return axios.get(`${API_BASE_URL}/v1/memberPayments?page=${page}`)
 }
 
+export const getSearchedMemberPayments = async data => {
+  return axios.post(`${API_BASE_URL}/v1/memberPayments/search`, data)
+}
+
 export const getUsers = async page => {
   return axios.get(`${API_BASE_URL}/v1/users?page=${page}`)
 }
