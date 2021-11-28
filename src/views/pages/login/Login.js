@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 
 import { Link, useHistory } from 'react-router-dom'
 import {
@@ -19,6 +19,8 @@ import CIcon from '@coreui/icons-react'
 import toast, { Toaster } from 'react-hot-toast'
 
 import { postAdminLogin } from 'src/services/APIUtils'
+import { useLogin } from 'src/contexts/LoginContext'
+//import { useLogin } from '../../contexts/LoginContext'
 
 const notify = () =>
   toast.success('Admin has logged in successfully.', {
@@ -28,6 +30,12 @@ const notify = () =>
 const errorNotification = error => toast.error(`${error}`)
 const Login = () => {
   const history = useHistory()
+  const { setAuthentication } = useLogin()
+  // useEffect(() => {
+  //   setAuthentication(false)
+  //   localStorage.removeItem('admintoken')
+  // }, [setAuthentication])
+
   const [item, setItem] = useState({
     email: '',
     password: ''
@@ -47,11 +55,13 @@ const Login = () => {
     try {
       const response = await postAdminLogin(item1)
       if (response.status === 200) {
-        history.push('/')
+        notify()
+        setAuthentication(true)
+        history.push('/home')
         localStorage.setItem('admintoken', response.data.accessToken)
         localStorage.setItem('fname', response.data.data.firstName)
+
         //setSubmitting(false)
-        notify()
       }
     } catch (err) {
       errorNotification(err.response.data.message)

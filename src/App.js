@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import { HashRouter, Route, Switch } from 'react-router-dom'
+//import { HashRouter, Route, Switch } from 'react-router-dom'
+import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 
 import { PaymentProvider } from './contexts/PaymentContext'
 import { UserProvider } from './contexts/UserContext'
@@ -29,68 +30,67 @@ const Register = React.lazy(() => import('./views/pages/register/Register'))
 const Page404 = React.lazy(() => import('./views/pages/page404/Page404'))
 const Page500 = React.lazy(() => import('./views/pages/page500/Page500'))
 
-
 class App extends Component {
   render () {
     return (
       <LoginProvider>
-      <PaymentProvider>
-        <UserProvider>
-          <RoomProvider>
-            <ServiceTypeProvider>
-              <TrainerProfileProvider>
-                <TrainingSessionProvider>
-                  <BookingProvider>
-                    <RegistrationProvider>
-                      <HashRouter>
+        <PaymentProvider>
+          <UserProvider>
+            <RoomProvider>
+              <ServiceTypeProvider>
+                <TrainerProfileProvider>
+                  <TrainingSessionProvider>
+                    <BookingProvider>
+                      <RegistrationProvider>
                         <React.Suspense fallback={loading}>
-                          <Switch>
-                            <Route
-                              exact
-                              path='/login'
-                              name='Login Page'
-                              render={props => <Login {...props} />}
-                            />
-                            <Route
-                              exact
-                              path='/register'
-                              name='Register Page'
-                              render={props => <Register {...props} />}
-                            />
-                            <Route
-                              exact
-                              path='/404'
-                              name='Page 404'
-                              render={props => <Page404 {...props} />}
-                            />
-                            <Route
-                              exact
-                              path='/500'
-                              name='Page 500'
-                              render={props => <Page500 {...props} />}
-                            />
-                            <PrivateRoute
-                              path='/'
-                              name='Home'
-                              render={props => <TheLayout {...props} />}
-                            />
-                            {/* <PrivateRoute
+                          <Router>
+                            <Switch>
+                              <Route
+                                exact
+                                path='/login'
+                                name='Login Page'
+                                render={props => <Login {...props} />}
+                              />
+                              <Route
+                                exact
+                                path='/register'
+                                name='Register Page'
+                                render={props => <Register {...props} />}
+                              />
+                              <Route
+                                exact
+                                path='/404'
+                                name='Page 404'
+                                render={props => <Page404 {...props} />}
+                              />
+                              <Route
+                                exact
+                                path='/500'
+                                name='Page 500'
+                                render={props => <Page500 {...props} />}
+                              />
+                              <PrivateRoute
+                                path='/'
+                                name='Home'
+                                render={props => <TheLayout {...props} />}
+                              />
+                              {/* <PrivateRoute
                               path='/'
                               name='Home'
                               exact={true}
                                render={props => <TheLayout {...props} />}
                             /> */}
-                          </Switch>
+                            </Switch>
+                          </Router>
                         </React.Suspense>
-                      </HashRouter>
-                    </RegistrationProvider>
-                  </BookingProvider>
-                </TrainingSessionProvider>
-              </TrainerProfileProvider>
-            </ServiceTypeProvider>
-          </RoomProvider>
-        </UserProvider>
-      </PaymentProvider>
+                      </RegistrationProvider>
+                    </BookingProvider>
+                  </TrainingSessionProvider>
+                </TrainerProfileProvider>
+              </ServiceTypeProvider>
+            </RoomProvider>
+          </UserProvider>
+        </PaymentProvider>
       </LoginProvider>
     )
   }
