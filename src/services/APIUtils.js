@@ -133,3 +133,27 @@ export const postAdminLogin = async data => {
 export const postUserRegistration = async values => {
   return axios.post(`${API_BASE_URL}/v1/users/register`, values)
 }
+
+export const getEquipments = async page => {
+  return axios.get(`${API_BASE_URL}/v1/equipment?page=${page}`)
+}
+
+export const postEquipment = async data => {
+  return axios.post(`${API_BASE_URL}/v1/equipment`, data)
+}
+
+export const updateEquipmentData = async (id, data) => {
+  return axios.put(`${API_BASE_URL}/v1/equipment/${id}`, data)
+}
+
+export const diactivateEquipmentData = async data => {
+  return axios.post(`${API_BASE_URL}/v1/equipment/diactivate`, data)
+}
+
+export const activateEquipmentData = async data => {
+  return axios.post(`${API_BASE_URL}/v1/equipment/activate`, data)
+}
+
+export const getTotalSessionsPerRoom = async () => {
+  return axios.get(`${API_BASE_URL}/v1/trainingSessions/total/sessions`)
+}

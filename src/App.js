@@ -5,6 +5,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { PaymentProvider } from './contexts/PaymentContext'
 import { UserProvider } from './contexts/UserContext'
 import { RoomProvider } from './contexts/RoomContext'
+import { EquipmentProvider } from './contexts/EquipmentContext'
 import { ServiceTypeProvider } from './contexts/ServiceTypeContext'
 import { TrainerProfileProvider } from './contexts/TrainerProfileContext'
 import { TrainingSessionProvider } from './contexts/TrainingSessionContext'
@@ -42,6 +43,7 @@ class App extends Component {
                   <TrainingSessionProvider>
                     <BookingProvider>
                       <RegistrationProvider>
+                      <EquipmentProvider>
                         <React.Suspense fallback={loading}>
                           <Router>
                             <Switch>
@@ -83,6 +85,7 @@ class App extends Component {
                             </Switch>
                           </Router>
                         </React.Suspense>
+                        </EquipmentProvider>
                       </RegistrationProvider>
                     </BookingProvider>
                   </TrainingSessionProvider>

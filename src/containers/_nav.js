@@ -71,6 +71,11 @@ const _nav = [
       },
       {
         _tag: 'CSidebarNavItem',
+        name: 'Equipment',
+        to: '/equipments'
+      },
+      {
+        _tag: 'CSidebarNavItem',
         name: 'Error 404',
         to: '/404'
       },

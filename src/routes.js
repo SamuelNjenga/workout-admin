@@ -1,4 +1,6 @@
 import React from 'react'
+import Equipments from './views/equipment/Equipments'
+import Equipment from './views/equipment/Equipment'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
@@ -80,6 +82,13 @@ const routes = [
     name: 'BookedSessions',
     component: BookedSessions
   },
+  {
+    path: '/equipments',
+    exact: true,
+    name: 'Equipments',
+    component: Equipments
+  },
+  { path: '/equipments/:id', exact: true, name: 'Equipment Details', component: Equipment },
   { path: '/users/:id', exact: true, name: 'User Details', component: User },
   { path: '/rooms/:id', exact: true, name: 'Room Details', component: Room },
   {
