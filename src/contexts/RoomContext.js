@@ -18,6 +18,7 @@ export const RoomProvider = props => {
   const [rooms, setRooms] = useState([])
   const [count, setCount] = useState(null)
   const [page, setPage] = useState(0)
+  const [totalRooms, setTotalRooms] = useState(0)
   const [isLoading, setLoading] = useState(true)
 
   const fetchRooms = useCallback(async () => {
@@ -25,9 +26,11 @@ export const RoomProvider = props => {
     const data = res?.data?.rooms
     const curr = res?.data?.currentPage
     const num = res?.data?.totalPages
+    const tot = res?.data?.totalRooms
     setCount(num)
     setPage(curr)
     setRooms(data)
+    setTotalRooms(tot)
     setLoading(false)
   }, [page])
 
@@ -45,6 +48,7 @@ export const RoomProvider = props => {
         setCount,
         setPage,
         isLoading,
+        totalRooms,
         setLoading
       }}
     >

@@ -10,6 +10,10 @@ export const getSearchedMemberPayments = async data => {
   return axios.post(`${API_BASE_URL}/v1/memberPayments/search`, data)
 }
 
+export const getFilteredMemberPayments = async data => {
+  return axios.post(`${API_BASE_URL}/v1/memberPayments/filter`, data)
+}
+
 export const getUsers = async page => {
   return axios.get(`${API_BASE_URL}/v1/users?page=${page}`)
 }

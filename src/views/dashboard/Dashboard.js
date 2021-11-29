@@ -10,7 +10,14 @@ import {
   CCol,
   CProgress,
   CRow,
-  CCallout
+  CCallout,
+  CModalFooter,
+  CDataTable,
+  CInput,
+  CLabel,
+  CModal,
+  CModalHeader,
+  CModalBody
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
 
@@ -18,15 +25,35 @@ import {
   getTotalAmount,
   getTotalUsers,
   getTotalUsersByCategory,
-  getTotalSessionsPerRoom
+  getTotalSessionsPerRoom,
+  getFilteredMemberPayments
 } from 'src/services/APIUtils'
+import { useRooms } from '../../contexts/RoomContext'
 
 const Dashboard = () => {
+  const { totalRooms } = useRooms()
+  const [filteredPayments, setFilteredPayments] = useState([])
+  const [modalTwo, setModalTwo] = useState(false)
   const [total, setTotal] = useState(0)
   const [users, setUsers] = useState(0)
   const [userCategories, setUserCategories] = useState([])
   const [roomSessions, setRoomSessions] = useState([])
   const [sessionsNumber, setSessionsNumber] = useState(null)
+
+  const fields = [
+    { key: 'id', _style: { width: '40%' } },
+    { key: 'memberId', _style: { width: '20%' } },
+    { key: 'amount', _style: { width: '20%' } }
+  ]
+
+  const [search, setSearch] = useState({
+    fromTime: '',
+    toTime: ''
+  })
+
+  const toggleTwo = () => {
+    setModalTwo(!modalTwo)
+  }
 
   const getTotal = async () => {
     try {
@@ -71,6 +98,27 @@ const Dashboard = () => {
     getUsersByCategory()
     getRoomSessions()
   }, [])
+
+  const handleChangeTwo = event => {
+    const target = event.target
+    const value = target.value
+    setSearch({ ...search, [event.target.name]: value })
+  }
+
+  const handleSubmitTwo = async event => {
+    event.preventDefault()
+    //setSubmitting(true)
+    const search1 = { ...search }
+    try {
+      const response = await getFilteredMemberPayments(search1)
+      setFilteredPayments(response.data)
+      //setSubmitting(false)
+      //notify()
+    } catch (err) {
+      console.log(err)
+      //setSubmitting(false)
+    }
+  }
 
   return (
     <>
@@ -228,13 +276,13 @@ const Dashboard = () => {
                 </CCol>
               </CRow>
               <br />
-
+              <h3>Rooms Details Report</h3>
               {roomSessions.map(item => (
                 <table className='table table-hover table-outline mb-0 d-none d-sm-table'>
                   <thead className='thead-light'>
                     <tr>
                       <th>Room Label </th>
-                      <th>No of TrainingSession(s) {sessionsNumber}</th>
+                      <th>No of TrainingSession(s)</th>
                     </tr>
                   </thead>
                   <tbody>
@@ -260,6 +308,67 @@ const Dashboard = () => {
                   </tbody>
                 </table>
               ))}
+              <div className='clearfix'>
+                <div className='float-left'>
+                  <strong>
+                    Average number of training sessions per room is{' '}
+                    {Math.ceil(sessionsNumber / totalRooms)}
+                  </strong>
+                </div>
+              </div>
+              <CButton onClick={toggleTwo}>
+                Check Member Payment Records
+              </CButton>
+              <CModal show={modalTwo} onClose={toggleTwo}>
+                <CModalHeader closeButton>Search Payment Details</CModalHeader>
+                <form onSubmit={handleSubmitTwo}>
+                  <CModalBody>
+                    <CLabel htmlFor='fromTime'>From</CLabel>
+                    <CInput
+                      id='fromTime'
+                      placeholder='Enter the from time'
+                      required
+                      name='fromTime'
+                      onChange={handleChangeTwo}
+                      value={search.fromTime}
+                    />
+                    <CLabel htmlFor='toTime'>To</CLabel>
+                    <CInput
+                      id='toTime'
+                      placeholder='Enter the to time'
+                      required
+                      name='toTime'
+                      onChange={handleChangeTwo}
+                      value={search.toTime}
+                    />
+                  </CModalBody>
+                  <CModalFooter>
+                    <CButton color='primary' type='submit'>
+                      Search
+                    </CButton>{' '}
+                    <CButton color='secondary' onClick={toggleTwo}>
+                      Cancel
+                    </CButton>
+                  </CModalFooter>
+                </form>
+                <CDataTable
+                  items={filteredPayments}
+                  fields={fields}
+                  columnFilter
+                  // tableFilter
+                  footer
+                  // itemsPerPageSelect
+                  hover
+                  sorter
+                  scopedSlots={{
+                    status: item => (
+                      <td>
+                        <CBadge color='primary'>{item.status}</CBadge>
+                      </td>
+                    )
+                  }}
+                />
+              </CModal>
             </CCardBody>
           </CCard>
         </CCol>
