@@ -19,6 +19,8 @@ import {
 } from '@coreui/react'
 import moment from 'moment'
 import toast, { Toaster } from 'react-hot-toast'
+import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns'
 
 import { useTrainingSessions } from '../../contexts/TrainingSessionContext'
 import {
@@ -68,6 +70,11 @@ const postponeNotification = sessionId =>
 
 const TrainingSessions = () => {
   const history = useHistory()
+  const [fromATime, onChangeFromATime] = useState(new Date())
+  const [toATime, onChangeToATime] = useState(new Date())
+  const [fromBTime, onChangeFromBTime] = useState(new Date())
+  const [toBTime, onChangeToBTime] = useState(new Date())
+
   const [modalOne, setModalOne] = useState(false)
   const [modalTwo, setModalTwo] = useState(false)
   const [modalThree, setModalThree] = useState(false)
@@ -80,8 +87,6 @@ const TrainingSessions = () => {
   const [item, setItem] = useState({
     sessionId: '',
     startTime: '',
-    endTime: '',
-    roomId: '',
     trainerId: ''
   })
 
@@ -140,7 +145,13 @@ const TrainingSessions = () => {
     //setSubmitting(true)
     const item1 = { ...item }
     try {
-      await postponeSession(item1)
+      await postponeSession({
+        sessionId: item.sessionId,
+        startTime: fromATime,
+        endTime: toATime,
+        roomId: item.roomId,
+        trainerId: item.trainerId
+      })
       //setSubmitting(false)
       postponeNotification(item1.sessionId)
     } catch (err) {
@@ -176,9 +187,17 @@ const TrainingSessions = () => {
   const handleSubmitFour = async event => {
     event.preventDefault()
     //setSubmitting(true)
-    const session1 = { ...session }
+    // const session1 = { ...session }
     try {
-      await postSession(session1)
+      await postSession({
+        serviceId: session.serviceId,
+        maxMembers: session.maxMembers,
+        startTime: fromBTime,
+        endTime: toBTime,
+        roomId: session.roomId,
+        trainerId: session.trainerId,
+        image: session.image
+      })
       //setSubmitting(false)
       successNotification()
     } catch (err) {
@@ -317,24 +336,27 @@ const TrainingSessions = () => {
                 onChange={handleChangeTwo}
                 value={item.sessionId}
               />
-              <CLabel htmlFor='startTime'>Time to start</CLabel>
-              <CInput
-                id='startTime'
-                placeholder='Enter the new start time'
-                required
-                name='startTime'
-                onChange={handleChangeTwo}
-                value={item.startTime}
-              />
-              <CLabel htmlFor='startTime'>Time to end</CLabel>
-              <CInput
-                id='endTime'
-                placeholder='Enter the new end time'
-                required
-                name='endTime'
-                onChange={handleChangeTwo}
-                value={item.endTime}
-              />
+              <br />
+              <CLabel htmlFor='fromTime'>From</CLabel>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <DateTimePicker
+                  id='fromTime'
+                  name='fromTime'
+                  // label="From Time"
+                  onChange={onChangeFromATime}
+                  value={fromATime}
+                />
+                <CLabel htmlFor='toTime'>To </CLabel>
+                <DateTimePicker
+                  id='toTime'
+                  name='toTime'
+                  // label="To Time"
+                  onChange={onChangeToATime}
+                  value={toATime}
+                />
+              </MuiPickersUtilsProvider>
+              <br />
+              <br />
               <CLabel htmlFor='sessionId'>Room ID</CLabel>
               <CInput
                 id='roomId'
@@ -359,7 +381,7 @@ const TrainingSessions = () => {
                 Confirm
               </CButton>{' '}
               <CButton color='secondary' onClick={toggleTwo}>
-                Cancel
+                Close
               </CButton>
             </CModalFooter>
           </form>
@@ -409,24 +431,27 @@ const TrainingSessions = () => {
                 onChange={handleChangeFour}
                 value={session.maxMembers}
               />
-              <CLabel htmlFor='startTime'>Time to start</CLabel>
-              <CInput
-                id='startTime'
-                placeholder='Enter the new start time'
-                required
-                name='startTime'
-                onChange={handleChangeFour}
-                value={session.startTime}
-              />
-              <CLabel htmlFor='startTime'>Time to end</CLabel>
-              <CInput
-                id='endTime'
-                placeholder='Enter the new end time'
-                required
-                name='endTime'
-                onChange={handleChangeFour}
-                value={session.endTime}
-              />
+              <br />
+              <CLabel htmlFor='fromTime'>From</CLabel>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <DateTimePicker
+                  id='fromTime'
+                  name='fromTime'
+                  // label="From Time"
+                  onChange={onChangeFromBTime}
+                  value={fromBTime}
+                />
+                <CLabel htmlFor='toTime'>To </CLabel>
+                <DateTimePicker
+                  id='toTime'
+                  name='toTime'
+                  // label="To Time"
+                  onChange={onChangeToBTime}
+                  value={toBTime}
+                />
+              </MuiPickersUtilsProvider>
+              <br />
+              <br />
               <CLabel htmlFor='trainerId'>Trainer ID</CLabel>
               <CInput
                 id='trainerId'
@@ -460,7 +485,7 @@ const TrainingSessions = () => {
                 Confirm
               </CButton>{' '}
               <CButton color='secondary' onClick={toggleFour}>
-                Cancel
+                Close
               </CButton>
             </CModalFooter>
           </form>

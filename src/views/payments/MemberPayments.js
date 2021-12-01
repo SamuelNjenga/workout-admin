@@ -8,7 +8,6 @@ import {
   CCardHeader,
   CCol,
   CDataTable,
-  CTableDataCell,
   CRow,
   CPagination,
   CButton,
@@ -63,9 +62,7 @@ const MemberPayments = () => {
   const [modalTwo, setModalTwo] = useState(false)
   const [item, setItem] = useState({
     memberId: '',
-    amount: '',
-    from: '',
-    to: ''
+    amount: ''
   })
 
   const [search, setSearch] = useState({
