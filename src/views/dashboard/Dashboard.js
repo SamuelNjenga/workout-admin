@@ -13,13 +13,14 @@ import {
   CCallout,
   CModalFooter,
   CDataTable,
-  CInput,
   CLabel,
   CModal,
   CModalHeader,
   CModalBody
 } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns'
 
 import {
   getTotalAmount,
@@ -29,6 +30,7 @@ import {
   getFilteredMemberPayments
 } from 'src/services/APIUtils'
 import { useRooms } from '../../contexts/RoomContext'
+import { Box } from '@material-ui/core'
 
 const Dashboard = () => {
   const { totalRooms } = useRooms()
@@ -39,6 +41,8 @@ const Dashboard = () => {
   const [userCategories, setUserCategories] = useState([])
   const [roomSessions, setRoomSessions] = useState([])
   const [sessionsNumber, setSessionsNumber] = useState(null)
+  const [fromTime, onChangeFromTime] = useState(new Date())
+  const [toTime, onChangeToTime] = useState(new Date())
 
   const fields = [
     { key: 'id', _style: { width: '40%' } },
@@ -46,10 +50,10 @@ const Dashboard = () => {
     { key: 'amount', _style: { width: '20%' } }
   ]
 
-  const [search, setSearch] = useState({
-    fromTime: '',
-    toTime: ''
-  })
+  // const [search, setSearch] = useState({
+  //   fromTime: new Date(),
+  //   toTime: new Date()
+  // })
 
   const toggleTwo = () => {
     setModalTwo(!modalTwo)
@@ -99,18 +103,20 @@ const Dashboard = () => {
     getRoomSessions()
   }, [])
 
-  const handleChangeTwo = event => {
-    const target = event.target
-    const value = target.value
-    setSearch({ ...search, [event.target.name]: value })
-  }
+  // const handleChangeTwo = event => {
+  //   const target = event.target
+  //   const value = target.value
+  //   console.log('TARGET', target)
+  //   console.log('TARGET', target)
+  //   setSearch({ ...search, [event.target.name]: value })
+  // }
 
   const handleSubmitTwo = async event => {
     event.preventDefault()
     //setSubmitting(true)
-    const search1 = { ...search }
+    // const search1 = { ...search }
     try {
-      const response = await getFilteredMemberPayments(search1)
+      const response = await getFilteredMemberPayments({fromTime,toTime})
       setFilteredPayments(response.data)
       //setSubmitting(false)
       //notify()
@@ -323,7 +329,7 @@ const Dashboard = () => {
                 <CModalHeader closeButton>Search Payment Details</CModalHeader>
                 <form onSubmit={handleSubmitTwo}>
                   <CModalBody>
-                    <CLabel htmlFor='fromTime'>From</CLabel>
+                    {/* <CLabel htmlFor='fromTime'>From</CLabel>
                     <CInput
                       id='fromTime'
                       placeholder='Enter the from time'
@@ -331,16 +337,35 @@ const Dashboard = () => {
                       name='fromTime'
                       onChange={handleChangeTwo}
                       value={search.fromTime}
-                    />
-                    <CLabel htmlFor='toTime'>To</CLabel>
-                    <CInput
-                      id='toTime'
-                      placeholder='Enter the to time'
-                      required
-                      name='toTime'
-                      onChange={handleChangeTwo}
-                      value={search.toTime}
-                    />
+                    /> */}
+                    <CLabel htmlFor='fromTime'>From</CLabel>
+                    <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                      <DateTimePicker
+                        id='fromTime'
+                        name='fromTime'
+                        // label="From Time"
+                        onChange={onChangeFromTime}
+                        value={fromTime}
+                      />
+                      <CLabel htmlFor='toTime'>To</CLabel>
+                      <DateTimePicker
+                        id='toTime'
+                        name='toTime'
+                        // label="To Time"
+                        onChange={onChangeToTime}
+                        value={toTime}
+                      />
+                    </MuiPickersUtilsProvider>
+
+                    {/* <CLabel htmlFor='toTime'>To</CLabel>
+                      <CInput
+                        id='toTime'
+                        placeholder='Enter the to time'
+                        required
+                        name='toTime'
+                        onChange={handleChangeTwo}
+                        value={search.toTime}
+                      /> */}
                   </CModalBody>
                   <CModalFooter>
                     <CButton color='primary' type='submit'>

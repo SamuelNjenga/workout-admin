@@ -20,6 +20,9 @@ import {
   CInput
 } from '@coreui/react'
 import moment from 'moment'
+import { DatePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
+import DateFnsUtils from '@date-io/date-fns'
+import toast, { Toaster } from 'react-hot-toast'
 
 import { usePayments } from '../../contexts/PaymentContext'
 import { postPayment, getSearchedMemberPayments } from 'src/services/APIUtils'
@@ -52,6 +55,9 @@ const getStatus = status => {
   }
 }
 
+const successNotification = () =>
+  toast.success('Member Payment has been registered successfully.')
+
 const MemberPayments = () => {
   const [modalOne, setModalOne] = useState(false)
   const [modalTwo, setModalTwo] = useState(false)
@@ -63,9 +69,7 @@ const MemberPayments = () => {
   })
 
   const [search, setSearch] = useState({
-    memberId: '',
-    fromTime: '',
-    toTime: ''
+    memberId: ''
   })
 
   const fields = [
@@ -83,6 +87,11 @@ const MemberPayments = () => {
 
   const history = useHistory()
   const [searchedPayments, setSearchedPayments] = useState([])
+  const [fromATime, onChangeFromATime] = useState(new Date())
+  const [toATime, onChangeToATime] = useState(new Date())
+  const [fromBTime, onChangeFromBTime] = useState(new Date())
+  const [toBTime, onChangeToBTime] = useState(new Date())
+
   const { payments, isLoading, count, page, setPage } = usePayments()
   const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
   const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
@@ -126,11 +135,16 @@ const MemberPayments = () => {
   const handleSubmitOne = async event => {
     event.preventDefault()
     //setSubmitting(true)
-    const item1 = { ...item }
+    // const item1 = { ...item }
     try {
-      await postPayment(item1)
+      await postPayment({
+        from: fromBTime,
+        amount: item.amount,
+        to: toBTime,
+        memberId: item.memberId
+      })
       //setSubmitting(false)
-      //notify()
+      successNotification()
     } catch (err) {
       console.log(err)
       //setSubmitting(false)
@@ -146,9 +160,13 @@ const MemberPayments = () => {
   const handleSubmitTwo = async event => {
     event.preventDefault()
     //setSubmitting(true)
-    const search1 = { ...search }
+    // const search1 = { ...search }
     try {
-      const response = await getSearchedMemberPayments(search1)
+      const response = await getSearchedMemberPayments({
+        fromTime: fromATime,
+        toTime: toATime,
+        memberId: search.memberId
+      })
       setSearchedPayments(response.data)
       //setSubmitting(false)
       //notify()
@@ -164,6 +182,7 @@ const MemberPayments = () => {
         <CCard>
           <CCardHeader>Member Payments</CCardHeader>
           <CCardBody>
+            <Toaster />
             <CDataTable
               items={payments}
               fields={[
@@ -240,31 +259,31 @@ const MemberPayments = () => {
                 onChange={handleChangeOne}
                 value={item.amount}
               />
-              <CLabel htmlFor='from'>From</CLabel>
-              <CInput
-                id='from'
-                placeholder='Enter the from time'
-                required
-                name='from'
-                onChange={handleChangeOne}
-                value={item.from}
-              />
-              <CLabel htmlFor='to'>To</CLabel>
-              <CInput
-                id='to'
-                placeholder='Enter the to time'
-                required
-                name='to'
-                onChange={handleChangeOne}
-                value={item.to}
-              />
+              <CLabel htmlFor='fromTime'>From</CLabel>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <DatePicker
+                  id='fromTime'
+                  name='fromTime'
+                  // label="From Time"
+                  onChange={onChangeFromBTime}
+                  value={fromBTime}
+                />
+                <CLabel htmlFor='toTime'>To </CLabel>
+                <DatePicker
+                  id='toTime'
+                  name='toTime'
+                  // label="To Time"
+                  onChange={onChangeToBTime}
+                  value={toBTime}
+                />
+              </MuiPickersUtilsProvider>
             </CModalBody>
             <CModalFooter>
               <CButton color='primary' type='submit'>
                 Confirm
               </CButton>{' '}
               <CButton color='secondary' onClick={toggleOne}>
-                Cancel
+                Close
               </CButton>
             </CModalFooter>
           </form>
@@ -284,6 +303,25 @@ const MemberPayments = () => {
                 value={search.memberId}
               />
               <CLabel htmlFor='fromTime'>From</CLabel>
+              <MuiPickersUtilsProvider utils={DateFnsUtils}>
+                <DatePicker
+                  id='fromTime'
+                  name='fromTime'
+                  // label="From Time"
+                  onChange={onChangeFromATime}
+                  value={fromATime}
+                />
+                <CLabel htmlFor='toTime'>To </CLabel>
+                <DatePicker
+                  id='toTime'
+                  name='toTime'
+                  // label="To Time"
+                  onChange={onChangeToATime}
+                  value={toATime}
+                />
+              </MuiPickersUtilsProvider>
+
+              {/* <CLabel htmlFor='fromTime'>From</CLabel>
               <CInput
                 id='fromTime'
                 placeholder='Enter the from time'
@@ -300,14 +338,14 @@ const MemberPayments = () => {
                 name='toTime'
                 onChange={handleChangeTwo}
                 value={search.toTime}
-              />
+              /> */}
             </CModalBody>
             <CModalFooter>
               <CButton color='primary' type='submit'>
                 Search
               </CButton>{' '}
               <CButton color='secondary' onClick={toggleTwo}>
-                Cancel
+                Close
               </CButton>
             </CModalFooter>
           </form>
