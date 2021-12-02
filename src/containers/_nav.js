@@ -98,6 +98,30 @@ const _nav = [
   //   disabled: true
   // },
   {
+    _tag: 'CSidebarNavDropdown',
+    name: 'Reports',
+    route: '/reports',
+    icon: 'cil-star',
+    _children: [
+      // {
+      //   _tag: 'CSidebarNavItem',
+      //   name: 'Register',
+      //   to: '/register'
+      // },
+      
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'RoomsReport',
+        to: '/roomsReport'
+      },
+      {
+        _tag: 'CSidebarNavItem',
+        name: 'MemberPaymentsReport',
+        to: '/memberPaymentsReport'
+      }
+    ]
+  },
+  {
     _tag: 'CSidebarNavDivider',
     className: 'm-2'
   },

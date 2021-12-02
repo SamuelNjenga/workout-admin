@@ -318,7 +318,7 @@ const TrainingSessions = () => {
                 Confirm
               </CButton>{' '}
               <CButton color='secondary' onClick={toggleOne}>
-                Cancel
+                Close
               </CButton>
             </CModalFooter>
           </form>
@@ -404,7 +404,7 @@ const TrainingSessions = () => {
                 Confirm
               </CButton>{' '}
               <CButton color='secondary' onClick={toggleThree}>
-                Cancel
+                Close
               </CButton>
             </CModalFooter>
           </form>

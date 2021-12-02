@@ -116,7 +116,7 @@ const Dashboard = () => {
     //setSubmitting(true)
     // const search1 = { ...search }
     try {
-      const response = await getFilteredMemberPayments({fromTime,toTime})
+      const response = await getFilteredMemberPayments({ fromTime, toTime })
       setFilteredPayments(response.data)
       //setSubmitting(false)
       //notify()
@@ -372,7 +372,7 @@ const Dashboard = () => {
                       Search
                     </CButton>{' '}
                     <CButton color='secondary' onClick={toggleTwo}>
-                      Cancel
+                      Close
                     </CButton>
                   </CModalFooter>
                 </form>
