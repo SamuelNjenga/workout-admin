@@ -161,3 +161,7 @@ export const activateEquipmentData = async data => {
 export const getTotalSessionsPerRoom = async () => {
   return axios.get(`${API_BASE_URL}/v1/trainingSessions/total/sessions`)
 }
+
+export const getMemberDetails = async data => {
+  return axios.post(`${API_BASE_URL}/v1/memberRegistrations/details`, data)
+}
