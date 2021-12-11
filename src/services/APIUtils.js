@@ -165,3 +165,15 @@ export const getTotalSessionsPerRoom = async () => {
 export const getMemberDetails = async data => {
   return axios.post(`${API_BASE_URL}/v1/memberRegistrations/details`, data)
 }
+
+export const getFilteredTrainingSessions = async data => {
+  return axios.post(`${API_BASE_URL}/v1/trainingSessions/filter`, data)
+}
+
+export const getAssignedTrainingSessions = async data => {
+  return axios.post(`${API_BASE_URL}/v1/trainingSessions/assign`, data)
+}
+
+export const getTrainingSessionDetails = async data => {
+  return axios.post(`${API_BASE_URL}/v1/trainingSessions/details`, data)
+}

@@ -102,13 +102,15 @@ const Users = () => {
             <CDataTable
               items={users}
               fields={[
+                { key: 'id', _classes: 'font-weight-bold' },
                 { key: 'firstName', _classes: 'font-weight-bold' },
-                'email',
                 'lastName',
-                'password'
+                'email',
+                { key: 'roleId', _classes: 'font-weight-bold' },
               ]}
               hover
               striped
+              pagination
               itemsPerPage={5}
               activePage={page}
               clickableRows
@@ -123,13 +125,13 @@ const Users = () => {
                 )
               }}
             />
-            <CPagination
+            {/* <CPagination
               activePage={page}
               onActivePageChange={pageChange}
               pages={5}
               doubleArrows={false}
               align='center'
-            />
+            /> */}
           </CCardBody>
         </CCard>
         <CButton onClick={toggleOne} className='mr-1'>
@@ -208,7 +210,7 @@ const Users = () => {
                 Confirm
               </CButton>{' '}
               <CButton color='secondary' onClick={toggleOne}>
-                Cancel
+                Close
               </CButton>
             </CModalFooter>
           </form>

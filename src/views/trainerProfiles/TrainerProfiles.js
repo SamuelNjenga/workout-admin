@@ -17,6 +17,7 @@ import {
   CModalFooter,
   CButton
 } from '@coreui/react'
+import toast, { Toaster } from 'react-hot-toast'
 
 import { useTrainerProfiles } from 'src/contexts/TrainerProfileContext'
 import { postTrainerProfile } from 'src/services/APIUtils'
@@ -35,6 +36,9 @@ const getBadge = status => {
       return 'primary'
   }
 }
+
+const successNotification = () =>
+  toast.success('Trainer profile registered successfully.')
 
 const TrainerProfiles = () => {
   const [modalOne, setModalOne] = useState(false)
@@ -79,7 +83,7 @@ const TrainerProfiles = () => {
     try {
       await postTrainerProfile(item1)
       //setSubmitting(false)
-      //notify()
+      successNotification()
     } catch (err) {
       console.log(err)
       //setSubmitting(false)
@@ -90,6 +94,7 @@ const TrainerProfiles = () => {
     <CRow>
       <CCol xl={6}>
         <CCard>
+        <Toaster />
           <CCardHeader>Trainer Profiles</CCardHeader>
           <CCardBody>
             <CDataTable

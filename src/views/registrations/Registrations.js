@@ -17,6 +17,7 @@ import {
   CRow,
   CPagination
 } from '@coreui/react'
+import toast, { Toaster } from 'react-hot-toast'
 
 import { useRegistrations } from '../../contexts/RegistrationContext'
 import {
@@ -53,6 +54,13 @@ const getStatus = status => {
   }
 }
 
+const successNotification = () =>
+  toast.success('Member registered successfully.')
+const activateNotification = () =>
+  toast.success('Member activated successfully.')
+const deactivateNotification = () =>
+  toast.success('Member deactivated successfully.')
+
 const Registrations = () => {
   const history = useHistory()
   const { registrations, isLoading, count, page, setPage } = useRegistrations()
@@ -77,7 +85,7 @@ const Registrations = () => {
   }
 
   const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/rooms?page=${newPage}`)
+    currentPage !== newPage && history.push(`/registrations?page=${newPage}`)
   }
 
   useEffect(() => {
@@ -97,7 +105,7 @@ const Registrations = () => {
     try {
       await postMemberRegistration({ userId: userId })
       //setSubmitting(false)
-      //notify()
+      successNotification()
     } catch (err) {
       console.log(err)
       //setSubmitting(false)
@@ -117,7 +125,7 @@ const Registrations = () => {
     try {
       await diactivateUser({ memberId: sessionThreeId })
       //setSubmitting(false)
-      //notify()
+      deactivateNotification()
     } catch (err) {
       console.log(err)
       //setSubmitting(false)
@@ -136,7 +144,7 @@ const Registrations = () => {
     try {
       await activateUser({ memberId: sessionId })
       //setSubmitting(false)
-      //notify()
+      activateNotification()
     } catch (err) {
       console.log(err)
       //setSubmitting(false)
@@ -149,6 +157,7 @@ const Registrations = () => {
         <CCard>
           <CCardHeader>Registration List</CCardHeader>
           <CCardBody>
+            <Toaster />
             <CDataTable
               items={registrations}
               fields={[
@@ -165,6 +174,7 @@ const Registrations = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
+              pagination
               onRowClick={item => history.push(`/registrations/${item.id}`)}
               scopedSlots={{
                 status: item => (
@@ -174,13 +184,13 @@ const Registrations = () => {
                 )
               }}
             />
-            <CPagination
+            {/* <CPagination
               activePage={page}
               onActivePageChange={pageChange}
               pages={5}
               doubleArrows={false}
               align='center'
-            />
+            /> */}
           </CCardBody>
         </CCard>
         <CButton onClick={toggleUser} className='mr-1'>
@@ -190,7 +200,7 @@ const Registrations = () => {
           Activate Member
         </CButton>
         <CButton onClick={toggleTwo} className='mr-1'>
-          Diactivate Member
+          Deactivate Member
         </CButton>
         <CModal show={modalOne} onClose={toggleOne}>
           <CModalHeader closeButton>Activate the member</CModalHeader>
@@ -210,7 +220,7 @@ const Registrations = () => {
                 Confirm
               </CButton>{' '}
               <CButton color='secondary' onClick={toggleOne}>
-                Cancel
+                Close
               </CButton>
             </CModalFooter>
           </form>
@@ -233,7 +243,7 @@ const Registrations = () => {
                 Confirm
               </CButton>{' '}
               <CButton color='secondary' onClick={toggleTwo}>
-                Cancel
+                Close
               </CButton>
             </CModalFooter>
           </form>
@@ -256,7 +266,7 @@ const Registrations = () => {
                 Confirm
               </CButton>{' '}
               <CButton color='secondary' onClick={toggleUser}>
-                Cancel
+                Close
               </CButton>
             </CModalFooter>
           </form>

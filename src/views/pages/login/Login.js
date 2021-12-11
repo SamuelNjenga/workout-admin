@@ -60,6 +60,10 @@ const Login = () => {
         history.push('/home')
         localStorage.setItem('admintoken', response.data.accessToken)
         localStorage.setItem('fname', response.data.data.firstName)
+        localStorage.setItem('lname', response.data.data.lastName)
+        localStorage.setItem('roleId', response.data.data.roleId)
+        localStorage.setItem('email', response.data.data.email)
+        localStorage.setItem('userId', response.data.data.id)
 
         //setSubmitting(false)
       }
@@ -73,7 +77,7 @@ const Login = () => {
     <div className='c-app c-default-layout flex-row align-items-center'>
       <CContainer>
         <CRow className='justify-content-center'>
-          <CCol md='8'>
+          <CCol md='6'>
             <CCardGroup>
               <CCard className='p-4'>
                 <CCardBody>
@@ -126,7 +130,7 @@ const Login = () => {
                   </CForm>
                 </CCardBody>
               </CCard>
-              <CCard
+              {/* <CCard
                 className='text-white bg-primary py-5 d-md-down-none'
                 style={{ width: '44%' }}
               >
@@ -150,7 +154,7 @@ const Login = () => {
                     </Link>
                   </div>
                 </CCardBody>
-              </CCard>
+              </CCard> */}
             </CCardGroup>
           </CCol>
         </CRow>

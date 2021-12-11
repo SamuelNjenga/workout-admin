@@ -21,8 +21,13 @@ import {
   getTotalAmount,
   getFilteredMemberPayments
 } from 'src/services/APIUtils'
+import MemberPaymentDownload from './MemberPaymentDownload'
 
-const MemberPaymentsReport = () => {
+const MemberPaymentsReport = React.forwardRef((props, ref) => {
+  const fname = localStorage.getItem('fname')
+  const lname = localStorage.getItem('lname')
+  const email = localStorage.getItem('email')
+
   const history = useHistory()
   const [filteredPayments, setFilteredPayments] = useState([])
   const [totalPayments, setTotalPayments] = useState([])
@@ -74,9 +79,10 @@ const MemberPaymentsReport = () => {
 
   return (
     <>
+    <div ref={ref}>
       <CCard>
         <CCardBody>
-          <h3>Member Payment Details Report</h3>
+          <h3 ref={ref}>Member Payment Details Report</h3>
           <CRow>
             <CCol sm='5'>
               <h4 id='traffic' className='card-title mb-0'>
@@ -94,13 +100,17 @@ const MemberPaymentsReport = () => {
           <CRow className='text-center'>
             <CCol md sm='12' className='mb-sm-2 mb-0'>
               <div className='text-muted'>Prepared By </div>
-              <strong>Name</strong>
+              <strong>
+                {fname} {lname}
+              </strong>
               <div className='text-muted'>Email Address </div>
-              <strong>Email</strong>
+              <strong>{email}</strong>
             </CCol>
             <CCol md sm='12' className='mb-sm-2 mb-0'>
               <div className='text-muted'>Generated on </div>
-              <strong>Date</strong>
+              <strong>
+                {moment(new Date()).format('MMMM Do YYYY, h:mm:ss a')}
+              </strong>
             </CCol>
           </CRow>
         </CCardFooter>
@@ -230,7 +240,8 @@ const MemberPaymentsReport = () => {
                     {/* {Math.ceil(sessionsNumber / totalRooms)} */}
                   </strong>
                   <strong>
-                    {' '}For {totalMembers} member(s) whose average is KSH{' '}
+                    {' '}
+                    For {totalMembers} member(s) whose average is KSH{' '}
                     {totalCash / totalMembers}
                   </strong>
                 </div>
@@ -239,8 +250,9 @@ const MemberPaymentsReport = () => {
           </CCard>
         </CCol>
       </CRow>
+      </div>
     </>
   )
-}
+})
 
 export default MemberPaymentsReport

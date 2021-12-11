@@ -3,6 +3,7 @@ import Equipments from './views/equipment/Equipments'
 import Equipment from './views/equipment/Equipment'
 import RoomsReport from './reports/RoomsReport'
 import MemberPaymentsReport from './reports/MemberPaymentsReport'
+import TrainingSessionsReport from './reports/TrainingSessionsReport'
 
 const Dashboard = React.lazy(() => import('./views/dashboard/Dashboard'))
 
@@ -48,6 +49,7 @@ const routes = [
   { path: '/dashboard', name: 'Dashboard', component: Dashboard },
   { path: '/roomsReport', name: 'Rooms Report', component: RoomsReport },
   { path: '/memberPaymentsReport', name: 'Member Payments Report', component: MemberPaymentsReport },
+  { path: '/trainingSessionsReport', name: 'Training Sessions Report', component: TrainingSessionsReport },
   { path: '/users', exact: true, name: 'Users', component: Users },
   { path: '/rooms', exact: true, name: 'Rooms', component: Rooms },
   {
