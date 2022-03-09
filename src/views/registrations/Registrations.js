@@ -174,6 +174,7 @@ const Registrations = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
+              sorter
               pagination
               onRowClick={item => history.push(`/registrations/${item.id}`)}
               scopedSlots={{

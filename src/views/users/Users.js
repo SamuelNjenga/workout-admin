@@ -96,7 +96,6 @@ const Users = () => {
           <Toaster />
           <CCardHeader>
             Users
-            <small className='text-muted'> example</small>
           </CCardHeader>
           <CCardBody>
             <CDataTable
@@ -110,6 +109,7 @@ const Users = () => {
               ]}
               hover
               striped
+              sorter
               pagination
               itemsPerPage={5}
               activePage={page}

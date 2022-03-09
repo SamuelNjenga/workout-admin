@@ -134,6 +134,8 @@ const TrainingSessionsReport = React.forwardRef((props, ref) => {
                 <strong>
                   {moment(new Date()).format('MMMM Do YYYY, h:mm:ss a')}
                 </strong>
+                <div className='text-muted'>Contact Great Body Gym Limited via</div>
+                <strong>Our number 0712456789</strong>
               </CCol>
             </CRow>
           </CCardFooter>
@@ -190,6 +192,7 @@ const TrainingSessionsReport = React.forwardRef((props, ref) => {
                   ]}
                   hover
                   striped
+                  sorter
                   itemsPerPage={5}
                   activePage={page}
                   pagination

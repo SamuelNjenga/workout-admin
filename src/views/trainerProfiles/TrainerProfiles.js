@@ -105,10 +105,12 @@ const TrainerProfiles = () => {
                   label: 'Trainer Id',
                   _classes: 'font-weight-bold'
                 },
-                { key: 'specialization' }
+                { key: 'specialization', label: 'Main Specialization Area' },
+                {key:'userId', label: 'User Id'}
               ]}
               hover
               striped
+              sorter
               itemsPerPage={5}
               activePage={page}
               clickableRows

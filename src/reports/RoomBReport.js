@@ -6,6 +6,8 @@ import {
   CCardBody,
   CCardFooter,
   CCol,
+  CDataTable,
+  CBadge,
   CProgress,
   CRow
 } from '@coreui/react'
@@ -15,7 +17,7 @@ import moment from 'moment'
 import { getTotalSessionsPerRoom } from 'src/services/APIUtils'
 import { useRooms } from 'src/contexts/RoomContext'
 
-const RoomsReport = React.forwardRef((props, ref) => {
+const RoomBReport = React.forwardRef((props, ref) => {
   const fname = localStorage.getItem('fname')
   const lname = localStorage.getItem('lname')
   const email = localStorage.getItem('email')
@@ -85,45 +87,41 @@ const RoomsReport = React.forwardRef((props, ref) => {
             <CCard>
               <CCardBody>
                 <br />
-                {roomSessions.map(item => (
-                  <table className='table table-hover table-outline mb-0 d-none d-sm-table'>
-                    <thead className='thead-light'>
-                      <tr>
-                        <th>Room Label </th>
-                        <th>Number of TrainingSession(s)</th>
-                      </tr>
-                    </thead>
-                    <tbody>
-                      <tr>
-                        <td>
-                          <div className='clearfix'>
-                            <div className='float-left'>
-                              <strong>{item.Room.label}</strong>
-                            </div>
-                            
-                          </div>
-                          <CProgress
-                            className='progress-xs'
-                            color='danger'
-                            value={(item.total_count / sessionsNumber) * 100}
-                          />
-                        </td>
-                        <td>
-                        <div className='float-left'>
-                              <strong className="text-muted">
-                                {item.total_count}
-                              </strong>
-                            </div>
-                        </td>
-                      </tr>
-                    </tbody>
-                  </table>
-                ))}
+                <CDataTable
+                  items={roomSessions}
+                  fields={[
+                    { key: 'id', _classes: 'font-weight-bold' },
+                    { key: 'label', label: 'Room Label' },
+                    { key: 'count', label: 'Room Count' },
+                  ]}
+                  hover
+                  striped
+                  sorter
+                  itemsPerPage={10}
+                  pagination
+                  scopedSlots={{
+                      id: item => (
+                      <td>
+                        <CBadge color={'secondary'}>{item.Room.id}</CBadge>
+                      </td>
+                    ),
+                    label: item => (
+                      <td>
+                        <CBadge color={'primary'}>{item.Room.label}</CBadge>
+                      </td>
+                    ),
+                    count: item => (
+                      <td>
+                        <CBadge color={'primary'}>{item.total_count}</CBadge>
+                      </td>
+                    ),
+                  }}
+                />
                 <div className='clearfix'>
                   <div className='float-left'>
                     <strong>
-                      Average number of training sessions per room is{' '}
-                      {Math.ceil(sessionsNumber / totalRooms)}
+                    The total number of training sessions for the rooms is{' '}
+                      {sessionsNumber}
                     </strong>
                   </div>
                 </div>
@@ -136,4 +134,4 @@ const RoomsReport = React.forwardRef((props, ref) => {
   )
 })
 
-export default RoomsReport
+export default RoomBReport

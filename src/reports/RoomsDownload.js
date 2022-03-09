@@ -1,7 +1,7 @@
 import { CButton } from '@coreui/react'
 import React, { useRef } from 'react'
 import ReactToPrint from 'react-to-print'
-import RoomsReport from './RoomsReport'
+import RoomBReport from './RoomBReport'
 const RoomsDownload = () => {
   const componentRef = useRef()
   return (
@@ -10,7 +10,7 @@ const RoomsDownload = () => {
         trigger={() => <CButton>Print this out!</CButton>}
         content={() => componentRef.current}
       />
-      <RoomsReport ref={componentRef} />
+      <RoomBReport ref={componentRef} />
     </div>
   )
 }

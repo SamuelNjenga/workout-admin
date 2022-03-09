@@ -177,6 +177,7 @@ const Equipments = () => {
               ]}
               hover
               striped
+              sorter
               itemsPerPage={5}
               activePage={page}
               clickableRows
@@ -271,7 +272,7 @@ const Equipments = () => {
             </CModalFooter>
           </form>
         </CModal>
-        ;
+        
         <CModal show={modalThree} onClose={toggleThree}>
           <CModalHeader closeButton>Diactivate</CModalHeader>
           <form onSubmit={handleSubmitThree}>

@@ -207,7 +207,7 @@ const Dashboard = () => {
 
                   <hr className='mt-0' />
 
-                  <div className='progress-group mb-4'>
+                  {/* <div className='progress-group mb-4'>
                     <div className='progress-group-header'>
                       <CIcon className='progress-group-icon' name='cil-user' />
                       <span className='title'>Male</span>
@@ -220,8 +220,8 @@ const Dashboard = () => {
                         value='43'
                       />
                     </div>
-                  </div>
-                  <div className='progress-group mb-5'>
+                  </div> */}
+                  {/* <div className='progress-group mb-5'>
                     <div className='progress-group-header'>
                       <CIcon
                         className='progress-group-icon'
@@ -237,7 +237,7 @@ const Dashboard = () => {
                         value='37'
                       />
                     </div>
-                  </div>
+                  </div> */}
                 </CCol>
               </CRow>
               <br />

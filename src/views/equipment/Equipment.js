@@ -1,9 +1,14 @@
 import React, { useState } from 'react'
 import { CCard, CCardBody, CCardHeader, CCol, CRow } from '@coreui/react'
 import CIcon from '@coreui/icons-react'
+import toast, { Toaster } from 'react-hot-toast'
+
 
 import { useEquipments } from '../../contexts/EquipmentContext'
 import { updateEquipmentData } from 'src/services/APIUtils'
+
+const successNotification = () =>
+  toast.success('Equipment edited successfully.')
 
 const Equipment = ({ match }) => {
   const { equipments } = useEquipments()
@@ -23,7 +28,7 @@ const Equipment = ({ match }) => {
       await updateEquipmentData(match.params.id, item1)
       //await postContact({ ...item })
       //setSubmitting(false)
-      //notify()
+      successNotification()
       console.log('Hitted', item1)
     } catch (err) {
       console.log(err)
@@ -51,6 +56,7 @@ const Equipment = ({ match }) => {
     <CRow>
       <CCol lg={6}>
         <CCard>
+        <Toaster />
           <CCardHeader>Equipment id: {match.params.id}</CCardHeader>
           <CCardBody>
             <form onSubmit={handleSubmit}>

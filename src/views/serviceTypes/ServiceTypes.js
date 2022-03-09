@@ -113,6 +113,7 @@ const ServiceTypes = () => {
               ]}
               hover
               striped
+              sorter
               itemsPerPage={5}
               activePage={page}
               clickableRows

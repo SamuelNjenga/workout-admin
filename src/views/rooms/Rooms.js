@@ -110,6 +110,7 @@ const handleSubmitOne = async event => {
               ]}
               hover
               striped
+              sorter
               itemsPerPage={5}
               activePage={page}
               clickableRows

@@ -74,16 +74,6 @@ const _nav = [
         name: 'Equipment',
         to: '/equipments'
       },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Error 404',
-        to: '/404'
-      },
-      {
-        _tag: 'CSidebarNavItem',
-        name: 'Error 500',
-        to: '/500'
-      }
     ]
   },
   // {
@@ -118,6 +108,10 @@ const _nav = [
         _tag: 'CSidebarNavItem',
         name: 'MemberPaymentsReport',
         to: '/memberPaymentsReport'
+      },{
+        _tag: 'CSidebarNavItem',
+        name: 'TrainingSessionsReport',
+        to: '/trainingSessionsReport'
       }
     ]
   },

@@ -76,6 +76,7 @@ const BookedSessions = () => {
               ]}
               hover
               striped
+              sorter
               itemsPerPage={5}
               activePage={page}
               clickableRows
