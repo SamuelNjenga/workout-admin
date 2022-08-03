@@ -1,0 +1,12 @@
+.btn__modal--text {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: bold;
+}
+.div__modal {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+}
+.modal__item {
+  margin: 10px;
+}

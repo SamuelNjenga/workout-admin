@@ -1,6 +1,6 @@
-import React, { useState } from 'react'
-import { useSelector, useDispatch } from 'react-redux'
-import moment from 'moment'
+import React, { useState } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import moment from "moment";
 import {
   CHeader,
   CToggler,
@@ -23,188 +23,189 @@ import {
   CRow,
   CContainer,
   CCardHeader,
-  CCardBody
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+  CCardBody,
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
 
 // routes config
-import routes from '../routes'
+import routes from "../routes";
 
-import { TheHeaderDropdown, TheHeaderDropdownNotif } from './index'
+import { TheHeaderDropdown, TheHeaderDropdownNotif } from "./index";
 import {
   getMemberDetails,
-  getTrainingSessionDetails
-} from 'src/services/APIUtils'
-import MemberPaymentDownload from 'src/reports/MemberPaymentDownload'
-import RoomsDownload from 'src/reports/RoomsDownload'
-import TrainingSessionsDownload from 'src/reports/TrainingSessionsDownload'
+  getTrainingSessionDetails,
+} from "src/services/APIUtils";
+import MemberPaymentDownload from "src/reports/MemberPaymentDownload";
+import RoomsDownload from "src/reports/RoomsDownload";
+import TrainingSessionsDownload from "src/reports/TrainingSessionsDownload";
 
+import "./TheHeader.css";
 const TheHeader = () => {
-  const roleId = localStorage.getItem('roleId')
-  const [modalOne, setModalOne] = useState(false)
-  const [modalTwo, setModalTwo] = useState(false)
-  const [modalThree, setModalThree] = useState(false)
-  const [modalFour, setModalFour] = useState(false)
-  const [modalFive, setModalFive] = useState(false)
-  const [modalSix, setModalSix] = useState(false)
+  const roleId = localStorage.getItem("roleId");
+  const [modalOne, setModalOne] = useState(false);
+  const [modalTwo, setModalTwo] = useState(false);
+  const [modalThree, setModalThree] = useState(false);
+  const [modalFour, setModalFour] = useState(false);
+  const [modalFive, setModalFive] = useState(false);
+  const [modalSix, setModalSix] = useState(false);
 
-  const [memberId, setMemberId] = useState('')
-  const [memberDetails, setMemberDetails] = useState({})
-  const [sessionId, setSessionId] = useState('')
-  const [trainingSessionDetails, setTrainingSessionDetails] = useState({})
-  const dispatch = useDispatch()
-  const sidebarShow = useSelector(state => state.sidebarShow)
+  const [memberId, setMemberId] = useState("");
+  const [memberDetails, setMemberDetails] = useState({});
+  const [sessionId, setSessionId] = useState("");
+  const [trainingSessionDetails, setTrainingSessionDetails] = useState({});
+  const dispatch = useDispatch();
+  const sidebarShow = useSelector((state) => state.sidebarShow);
 
-  const handleChange = event => {
-    event.persist()
-    const target = event.target
-    const value = target.value
-    setMemberId(value)
-  }
+  const handleChange = (event) => {
+    event.persist();
+    const target = event.target;
+    const value = target.value;
+    setMemberId(value);
+  };
 
-  const handleSubmit = async event => {
-    event.preventDefault()
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     //setSubmitting(true)
     try {
-      const response = await getMemberDetails({ memberId })
-      setMemberDetails(response.data)
+      const response = await getMemberDetails({ memberId });
+      setMemberDetails(response.data);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       //setSubmitting(false)
     }
-  }
+  };
 
-  const handleChangeTwo = event => {
-    event.persist()
-    const target = event.target
-    const value = target.value
-    setSessionId(value)
-  }
+  const handleChangeTwo = (event) => {
+    event.persist();
+    const target = event.target;
+    const value = target.value;
+    setSessionId(value);
+  };
 
-  const handleSubmitTwo = async event => {
-    event.preventDefault()
+  const handleSubmitTwo = async (event) => {
+    event.preventDefault();
     //setSubmitting(true)
     try {
-      const response = await getTrainingSessionDetails({ sessionId })
-      setTrainingSessionDetails(response.data)
+      const response = await getTrainingSessionDetails({ sessionId });
+      setTrainingSessionDetails(response.data);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       //setSubmitting(false)
     }
-  }
+  };
 
   const toggleOne = () => {
-    setModalOne(!modalOne)
-  }
+    setModalOne(!modalOne);
+  };
 
   const toggleTwo = () => {
-    setModalTwo(!modalTwo)
-  }
+    setModalTwo(!modalTwo);
+  };
 
   const toggleThree = () => {
-    setModalThree(!modalThree)
-  }
+    setModalThree(!modalThree);
+  };
 
   const toggleFour = () => {
-    setModalFour(!modalFour)
-  }
+    setModalFour(!modalFour);
+  };
 
   const toggleFive = () => {
-    setModalFive(!modalFive)
-  }
+    setModalFive(!modalFive);
+  };
 
   const toggleSix = () => {
-    setModalSix(!modalSix)
-  }
+    setModalSix(!modalSix);
+  };
 
   const toggleSidebar = () => {
-    const val = [true, 'responsive'].includes(sidebarShow)
+    const val = [true, "responsive"].includes(sidebarShow)
       ? false
-      : 'responsive'
-    dispatch({ type: 'set', sidebarShow: val })
-  }
+      : "responsive";
+    dispatch({ type: "set", sidebarShow: val });
+  };
 
   const toggleSidebarMobile = () => {
-    const val = [false, 'responsive'].includes(sidebarShow)
+    const val = [false, "responsive"].includes(sidebarShow)
       ? true
-      : 'responsive'
-    dispatch({ type: 'set', sidebarShow: val })
-  }
+      : "responsive";
+    dispatch({ type: "set", sidebarShow: val });
+  };
 
-  const isEmpty = obj => {
-    if (obj === undefined) return true
-    if (obj === null) return true
-    return Object.keys(obj).length === 0
-  }
+  const isEmpty = (obj) => {
+    if (obj === undefined) return true;
+    if (obj === null) return true;
+    return Object.keys(obj).length === 0;
+  };
 
   return (
     <>
       <CHeader withSubheader>
         <CToggler
           inHeader
-          className='ml-md-3 d-lg-none'
+          className="ml-md-3 d-lg-none"
           onClick={toggleSidebarMobile}
         />
         <CToggler
           inHeader
-          className='ml-3 d-md-down-none'
+          className="ml-3 d-md-down-none"
           onClick={toggleSidebar}
         />
-        <CHeaderBrand className='mx-auto d-lg-none' to='/'>
-          <CIcon name='logo' height='48' alt='Logo' />
+        <CHeaderBrand className="mx-auto d-lg-none" to="/">
+          <CIcon name="logo" height="48" alt="Logo" />
         </CHeaderBrand>
 
-        <CHeaderNav className='d-md-down-none mr-auto'>
-          {roleId === '1' && (
+        <CHeaderNav className="d-md-down-none mr-auto">
+          {roleId === "1" && (
             <>
-              <CHeaderNavItem className='px-3'>
-                <CHeaderNavLink to='/dashboard'>Dashboard</CHeaderNavLink>
+              <CHeaderNavItem className="px-3">
+                <CHeaderNavLink to="/dashboard">Dashboard</CHeaderNavLink>
               </CHeaderNavItem>
-              <CHeaderNavItem className='px-3'>
-                <CHeaderNavLink to='/users'>Users</CHeaderNavLink>
+              <CHeaderNavItem className="px-3">
+                <CHeaderNavLink to="/users">Users</CHeaderNavLink>
               </CHeaderNavItem>
-              <CHeaderNavItem className='px-3'>
-                <CButton onClick={toggleOne} className='mr-1'>
+              <CHeaderNavItem className="px-3">
+                <CButton onClick={toggleOne} className="mr-1">
                   View Member Details
                 </CButton>
               </CHeaderNavItem>
             </>
           )}
 
-          {roleId === '2' && (
+          {roleId === "2" && (
             <>
-              <CHeaderNavItem className='px-3'>
-                <CButton onClick={toggleTwo} className='mr-1'>
+              <CHeaderNavItem className="px-3">
+                <CButton onClick={toggleTwo} className="mr-1">
                   View Training Session Details
                 </CButton>
               </CHeaderNavItem>
             </>
           )}
-          <CHeaderNavItem className='px-3'>
-            <CButton onClick={toggleThree} className='mr-1'>
+          <CHeaderNavItem className="px-3">
+            <CButton onClick={toggleThree} className="mr-1" color="primary">
               Open print
             </CButton>
           </CHeaderNavItem>
         </CHeaderNav>
 
-        <CHeaderNav className='px-3'>
+        <CHeaderNav className="px-3">
           <TheHeaderDropdownNotif />
           <TheHeaderDropdown />
         </CHeaderNav>
 
-        <CSubheader className='px-3 justify-content-between'>
+        <CSubheader className="px-3 justify-content-between">
           <CBreadcrumbRouter
-            className='border-0 c-subheader-nav m-0 px-0 px-md-3'
+            className="border-0 c-subheader-nav m-0 px-0 px-md-3"
             routes={routes}
           />
-          {roleId === '1' && (
-            <div className='d-md-down-none mfe-2 c-subheader-nav'>
+          {roleId === "1" && (
+            <div className="d-md-down-none mfe-2 c-subheader-nav">
               <CLink
-                className='c-subheader-nav-link'
-                aria-current='page'
-                to='/dashboard'
+                className="c-subheader-nav-link"
+                aria-current="page"
+                to="/dashboard"
               >
-                <CIcon name='cil-graph' alt='Dashboard' />
+                <CIcon name="cil-graph" alt="Dashboard" />
                 &nbsp;Dashboard
               </CLink>
             </div>
@@ -216,20 +217,20 @@ const TheHeader = () => {
         <CModalHeader closeButton>Cancel the session</CModalHeader>
         <form onSubmit={handleSubmit}>
           <CModalBody>
-            <CLabel htmlFor='memberId'>Member ID</CLabel>
+            <CLabel htmlFor="memberId">Member ID</CLabel>
             <CInput
-              id='memberId'
-              placeholder='Enter the member ID'
+              id="memberId"
+              placeholder="Enter the member ID"
               required
               onChange={handleChange}
               value={memberId}
             />
           </CModalBody>
           <CModalFooter>
-            <CButton color='primary' type='submit'>
+            <CButton color="primary" type="submit">
               Search
-            </CButton>{' '}
-            <CButton color='secondary' onClick={toggleOne}>
+            </CButton>{" "}
+            <CButton color="secondary" onClick={toggleOne}>
               Close
             </CButton>
           </CModalFooter>
@@ -238,7 +239,7 @@ const TheHeader = () => {
         {!isEmpty(memberDetails) && (
           <CContainer fluid>
             <CRow>
-              <CCol sm='6'>
+              <CCol sm="6">
                 <CCard>
                   <CCardHeader>
                     First Name <strong>{memberDetails.User.firstName}</strong>
@@ -251,10 +252,10 @@ const TheHeader = () => {
                   </CCardBody>
                 </CCard>
               </CCol>
-              <CCol sm='6'>
+              <CCol sm="6">
                 <CCard>
                   <CCardHeader>
-                    Phone Number{' '}
+                    Phone Number{" "}
                     <strong>{memberDetails.User.phoneNumber}</strong>
                   </CCardHeader>
                   <CCardHeader>
@@ -273,20 +274,20 @@ const TheHeader = () => {
         <CModalHeader closeButton>Cancel the session</CModalHeader>
         <form onSubmit={handleSubmitTwo}>
           <CModalBody>
-            <CLabel htmlFor='sessionId'>Session ID</CLabel>
+            <CLabel htmlFor="sessionId">Session ID</CLabel>
             <CInput
-              id='sessionId'
-              placeholder='Enter the training session ID'
+              id="sessionId"
+              placeholder="Enter the training session ID"
               required
               onChange={handleChangeTwo}
               value={sessionId}
             />
           </CModalBody>
           <CModalFooter>
-            <CButton color='primary' type='submit'>
+            <CButton color="primary" type="submit">
               Search
-            </CButton>{' '}
-            <CButton color='secondary' onClick={toggleTwo}>
+            </CButton>{" "}
+            <CButton color="secondary" onClick={toggleTwo}>
               Close
             </CButton>
           </CModalFooter>
@@ -295,45 +296,45 @@ const TheHeader = () => {
         {!isEmpty(trainingSessionDetails) && (
           <CContainer fluid>
             <CRow>
-              <CCol sm='6'>
+              <CCol sm="6">
                 <CCard>
                   <CCardHeader>
-                    Service Name{' '}
+                    Service Name{" "}
                     <strong>{trainingSessionDetails.ServiceType.name}</strong>
                   </CCardHeader>
                   <CCardHeader>
-                    Start Time{' '}
+                    Start Time{" "}
                     <strong>
                       {moment(trainingSessionDetails.startTime).format(
-                        'MMMM Do YYYY, h:mm:ss a'
+                        "MMMM Do YYYY, h:mm:ss a"
                       )}
                     </strong>
                   </CCardHeader>
                   <CCardBody>
-                    End Time{' '}
+                    End Time{" "}
                     <strong>
                       {moment(trainingSessionDetails.endTime).format(
-                        'MMMM Do YYYY, h:mm:ss a'
+                        "MMMM Do YYYY, h:mm:ss a"
                       )}
                     </strong>
                   </CCardBody>
                 </CCard>
               </CCol>
-              <CCol sm='6'>
+              <CCol sm="6">
                 <CCard>
                   <CCardHeader>
                     Room ID <strong>{trainingSessionDetails.roomId}</strong>
                   </CCardHeader>
                   <CCardHeader>
-                    Trainer ID{' '}
+                    Trainer ID{" "}
                     <strong>{trainingSessionDetails.trainerId}</strong>
                   </CCardHeader>
                   <CCardBody>
-                    Members so far{' '}
+                    Members so far{" "}
                     <strong>{trainingSessionDetails.membersSoFar}</strong>
                   </CCardBody>
                   <CCardBody>
-                    Max No of Members{' '}
+                    Max No of Members{" "}
                     <strong>{trainingSessionDetails.maxMembers}</strong>
                   </CCardBody>
                 </CCard>
@@ -343,13 +344,38 @@ const TheHeader = () => {
         )}
       </CModal>
       <CModal show={modalThree} onClose={toggleThree}>
-        <CModalHeader closeButton>Close</CModalHeader>
+        <CModalHeader closeButton className="btn__modal--text">
+          Close
+        </CModalHeader>
         <CModalBody>
-        {roleId === '1' && (
-          <CButton onClick={toggleFour}>Print Member Payments Records</CButton>
-        )}
-          <CButton onClick={toggleFive}>Print Rooms Reports Records</CButton>
-          <CButton onClick={toggleSix}>Print Training Sessions Records</CButton>
+          <div className="d-grid gap-1  div__modal">
+            {roleId === "1" && (
+              <CButton
+                onClick={toggleFour}
+                color="secondary"
+                shape="rounded-pill"
+                className="modal__item"
+              >
+                Print Member Payments Records
+              </CButton>
+            )}
+            <CButton
+              onClick={toggleFive}
+              color="secondary"
+              shape="rounded-pill"
+              className="me-md-2 modal__item"
+            >
+              Print Rooms Reports Records
+            </CButton>
+            <CButton
+              onClick={toggleSix}
+              color="secondary"
+              shape="rounded-pill"
+              className="modal__item"
+            >
+              Print Training Sessions Records
+            </CButton>
+          </div>
         </CModalBody>
       </CModal>
       <CModal show={modalFour} onClose={toggleFour}>
@@ -371,7 +397,7 @@ const TheHeader = () => {
         </CModalBody>
       </CModal>
     </>
-  )
-}
+  );
+};
 
-export default TheHeader
+export default TheHeader;
