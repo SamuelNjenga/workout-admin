@@ -3,37 +3,51 @@ import React, {
   useState,
   useContext,
   useEffect,
-  useCallback
-} from 'react'
+  useCallback,
+} from "react";
 
-import { getUsers } from '../services/APIUtils'
+import { getTotalUsersByCategory, getUsers } from "../services/APIUtils";
 
-export const UserContext = createContext()
+export const UserContext = createContext();
 
-export function useUsers () {
-  return useContext(UserContext)
+export function useUsers() {
+  return useContext(UserContext);
 }
 
-export const UserProvider = props => {
-  const [users, setUsers] = useState([])
-  const [count, setCount] = useState(null)
-  const [page, setPage] = useState(0)
-  const [isLoading, setLoading] = useState(true)
+export const UserProvider = (props) => {
+  const [users, setUsers] = useState([]);
+  const [userCategories, setUserCategories] = useState([]);
+  const [count, setCount] = useState(null);
+  const [page, setPage] = useState(0);
+  const [isLoading, setLoading] = useState(true);
 
   const fetchUsers = useCallback(async () => {
-    const res = await getUsers(page)
-    const data = res?.data?.users
-    const curr = res?.data?.currentPage
-    const num = res?.data?.totalPages
-    setCount(num)
-    setPage(curr)
-    setUsers(data)
-    setLoading(false)
-  }, [page])
+    const res = await getUsers(page);
+    const data = res?.data?.users;
+    const curr = res?.data?.currentPage;
+    const num = res?.data?.totalPages;
+    setCount(num);
+    setPage(curr);
+    setUsers(data);
+    setLoading(false);
+  }, [page]);
 
   useEffect(() => {
-    fetchUsers()
-  }, [fetchUsers])
+    fetchUsers();
+  }, [fetchUsers]);
+
+  const getUsersByCategory = async () => {
+    try {
+      const res = await getTotalUsersByCategory();
+      setUserCategories(res?.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getUsersByCategory();
+  }, []);
 
   return (
     <UserContext.Provider
@@ -45,10 +59,11 @@ export const UserProvider = props => {
         setCount,
         setPage,
         isLoading,
-        setLoading
+        setLoading,
+        userCategories,
       }}
     >
       {props.children}
     </UserContext.Provider>
-  )
-}
+  );
+};

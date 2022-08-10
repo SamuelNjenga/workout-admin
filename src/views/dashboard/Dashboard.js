@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from "react";
 
 import {
   CBadge,
@@ -10,22 +10,23 @@ import {
   CCol,
   CProgress,
   CRow,
-  CCallout
-} from '@coreui/react'
-import CIcon from '@coreui/icons-react'
+  CCallout,
+} from "@coreui/react";
+import CIcon from "@coreui/icons-react";
 
 import {
   getTotalAmount,
   getTotalUsers,
-  getTotalUsersByCategory
-} from 'src/services/APIUtils'
+  getTotalUsersByCategory,
+} from "src/services/APIUtils";
+import { useUsers } from "src/contexts/UserContext";
 
 const Dashboard = () => {
-  const roleId = localStorage.getItem('roleId')
-  const [modalTwo, setModalTwo] = useState(false)
-  const [total, setTotal] = useState(0)
-  const [users, setUsers] = useState(0)
-  const [userCategories, setUserCategories] = useState([])
+  const roleId = localStorage.getItem("roleId");
+  const [modalTwo, setModalTwo] = useState(false);
+  const [total, setTotal] = useState(0);
+  const [users, setUsers] = useState(0);
+  const { userCategories } = useUsers();
 
   // const [search, setSearch] = useState({
   //   fromTime: new Date(),
@@ -33,73 +34,63 @@ const Dashboard = () => {
   // })
 
   const toggleTwo = () => {
-    setModalTwo(!modalTwo)
-  }
+    setModalTwo(!modalTwo);
+  };
 
   const getTotal = async () => {
     try {
-      const res = await getTotalAmount()
-      setTotal(res?.data[0]?.total_amount)
+      const res = await getTotalAmount();
+      setTotal(res?.data[0]?.total_amount);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
+  };
 
   const getUsers = async () => {
     try {
-      const res = await getTotalUsers()
-      setUsers(res?.data[0]?.total_users)
+      const res = await getTotalUsers();
+      setUsers(res?.data[0]?.total_users);
     } catch (err) {
-      console.log(err)
+      console.log(err);
     }
-  }
-
-  const getUsersByCategory = async () => {
-    try {
-      const res = await getTotalUsersByCategory()
-      setUserCategories(res?.data)
-    } catch (err) {
-      console.log(err)
-    }
-  }
+  };
 
   useEffect(() => {
-    getTotal()
-    getUsers()
-    getUsersByCategory()
-  }, [])
+    getTotal();
+    getUsers();
+  }, []);
 
   return (
     <>
       <CCard>
         <CCardBody>
           <CRow>
-            <CCol sm='5'>
-              <h4 id='traffic' className='card-title mb-0'>
+            <CCol sm="5">
+              <h4 id="traffic" className="card-title mb-0">
                 Welcome to Great Body Gym Limited Dashboard
               </h4>
-              {roleId === '1' && (
-                <h4 id='traffic' className='card-title mb-0'>
+              {roleId === "1" && (
+                <h4 id="traffic" className="card-title mb-0">
                   For Admin
                 </h4>
               )}
-              {roleId === '2' && (
-                <h4 id='traffic' className='card-title mb-0'>
+              {roleId === "2" && (
+                <h4 id="traffic" className="card-title mb-0">
                   For Trainers
                 </h4>
               )}
-              <div className='small text-muted'>2021</div>
+              <div className="small text-muted">2021</div>
             </CCol>
-            <CCol sm='7' className='d-none d-md-block'>
-              <CButton color='primary' className='float-right'>
-                <CIcon name='cil-cloud-download' />
+            <CCol sm="7" className="d-none d-md-block">
+              <CButton color="primary" className="float-right">
+                <CIcon name="cil-cloud-download" />
               </CButton>
             </CCol>
           </CRow>
         </CCardBody>
         <CCardFooter>
-          {roleId === '1' && (
-            <CRow className='text-center'>
+          {roleId === "1" && (
+            <CRow className="text-center">
               {/* <CCol md sm='12' className='mb-sm-2 mb-0'>
               <div className='text-muted'>Visits</div>
               <strong>29.703 Users (40%)</strong>
@@ -110,28 +101,28 @@ const Dashboard = () => {
                 value={10}
               />
             </CCol> */}
-              <CCol md sm='12' className='mb-sm-2 mb-0'>
-                <div className='text-muted'>Total Amount Made So Far</div>
+              <CCol md sm="12" className="mb-sm-2 mb-0">
+                <div className="text-muted">Total Amount Made So Far</div>
                 <strong>KSH {total}</strong>
                 <CProgress
-                  className='progress-xs mt-2'
+                  className="progress-xs mt-2"
                   precision={1}
-                  color='warning'
+                  color="warning"
                   value={40}
                 />
               </CCol>
-              <CCol md sm='12' className='mb-sm-2 mb-0'>
-                <div className='text-muted'>Number Of Users</div>
+              <CCol md sm="12" className="mb-sm-2 mb-0">
+                <div className="text-muted">Number Of Users</div>
                 <strong>{users} Users</strong>
                 <CProgress
-                  className='progress-xs mt-2'
+                  className="progress-xs mt-2"
                   precision={1}
-                  color='danger'
+                  color="danger"
                   value={40}
                 />
-                {userCategories.map(item => (
+                {userCategories.map((item) => (
                   <React.Fragment>
-                    <div className='text-muted'>{item.Role.roleName}</div>
+                    <div className="text-muted">{item.Role.roleName}</div>
                     <strong>
                       {item.total_count} {item.Role.roleName}(s)
                     </strong>
@@ -148,38 +139,38 @@ const Dashboard = () => {
             <CCardHeader>Great Body Ltd Sales</CCardHeader>
             <CCardBody>
               <CRow>
-                <CCol xs='12' md='6' xl='6'>
+                <CCol xs="12" md="6" xl="6">
                   <CRow>
-                    <CCol sm='6'>
-                      <CCallout color='info'>
-                        <small className='text-muted'>New Clients</small>
+                    <CCol sm="6">
+                      <CCallout color="info">
+                        <small className="text-muted">New Clients</small>
                         <br />
-                        <strong className='h4'>
+                        <strong className="h4">
                           {userCategories[2]?.total_count}
                         </strong>
                       </CCallout>
                     </CCol>
-                    <CCol sm='6'>
-                      <CCallout color='danger'>
-                        <small className='text-muted'>Gym Trainers</small>
+                    <CCol sm="6">
+                      <CCallout color="danger">
+                        <small className="text-muted">Gym Trainers</small>
                         <br />
-                        <strong className='h4'>
+                        <strong className="h4">
                           {userCategories[1]?.total_count}
                         </strong>
                       </CCallout>
                     </CCol>
                   </CRow>
-                  <hr className='mt-0' />
-                  <div className='legend text-center'>
+                  <hr className="mt-0" />
+                  <div className="legend text-center">
                     <small>
-                      <sup className='px-1'>
-                        <CBadge shape='pill' color='info'>
+                      <sup className="px-1">
+                        <CBadge shape="pill" color="info">
                           &nbsp;
                         </CBadge>
                       </sup>
                       New clients &nbsp;
-                      <sup className='px-1'>
-                        <CBadge shape='pill' color='danger'>
+                      <sup className="px-1">
+                        <CBadge shape="pill" color="danger">
                           &nbsp;
                         </CBadge>
                       </sup>
@@ -187,7 +178,7 @@ const Dashboard = () => {
                     </small>
                   </div>
                 </CCol>
-                <CCol xs='12' md='6' xl='6'>
+                <CCol xs="12" md="6" xl="6">
                   <CRow>
                     {/* <CCol sm='6'>
                       <CCallout color='warning'>
@@ -205,7 +196,7 @@ const Dashboard = () => {
                     </CCol> */}
                   </CRow>
 
-                  <hr className='mt-0' />
+                  <hr className="mt-0" />
 
                   {/* <div className='progress-group mb-4'>
                     <div className='progress-group-header'>
@@ -246,7 +237,7 @@ const Dashboard = () => {
         </CCol>
       </CRow>
     </>
-  )
-}
+  );
+};
 
-export default Dashboard
+export default Dashboard;

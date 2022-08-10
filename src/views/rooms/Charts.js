@@ -44,7 +44,9 @@ const Charts = () => {
         View Room Size Bar Chart
       </CButton>
       <CModal show={modalOne} onClose={toggleOne} size="lg">
-        <CModalHeader closeButton>Rooms Size Line Chart</CModalHeader>
+        <CModalHeader closeButton className="btn__modal--text">
+          Rooms Size Line Chart
+        </CModalHeader>
         <CModalBody>
           <RoomsLineChart />
         </CModalBody>
@@ -55,7 +57,9 @@ const Charts = () => {
         </CModalFooter>
       </CModal>
       <CModal show={modalTwo} onClose={toggleTwo} size="lg">
-        <CModalHeader closeButton>Rooms Size Bar Chart</CModalHeader>
+        <CModalHeader closeButton className="btn__modal--text">
+          Rooms Size Bar Chart
+        </CModalHeader>
         <CModalBody>
           <RoomsBarChart />
         </CModalBody>

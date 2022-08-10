@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   CBadge,
   CCard,
@@ -15,97 +15,102 @@ import {
   CModalBody,
   CLabel,
   CInput,
-  CModalFooter
-} from '@coreui/react'
-import toast, { Toaster } from 'react-hot-toast'
+  CModalFooter,
+} from "@coreui/react";
+import toast, { Toaster } from "react-hot-toast";
 
-import { useUsers } from 'src/contexts/UserContext'
-import { postUserRegistration } from 'src/services/APIUtils'
+import { useUsers } from "src/contexts/UserContext";
+import { postUserRegistration } from "src/services/APIUtils";
+import Charts from "./Charts";
 
-const getBadge = status => {
+const getBadge = (status) => {
   switch (status) {
-    case 'Active':
-      return 'success'
-    case 'Inactive':
-      return 'secondary'
-    case 'Pending':
-      return 'warning'
-    case 'Banned':
-      return 'danger'
+    case "Active":
+      return "success";
+    case "Inactive":
+      return "secondary";
+    case "Pending":
+      return "warning";
+    case "Banned":
+      return "danger";
     default:
-      return 'primary'
+      return "primary";
   }
-}
+};
 
 const successNotification = () =>
-  toast.success('User has been registered successfully.')
-const errorNotification = error => toast.error(`${error}`)
+  toast.success("User has been registered successfully.");
+const errorNotification = (error) => toast.error(`${error}`);
 
 const Users = () => {
-  const history = useHistory()
-  const [modalOne, setModalOne] = useState(false)
+  const history = useHistory();
+  const [modalOne, setModalOne] = useState(false);
+  const [modalTwo, setModalTwo] = useState(false);
+
   const [item, setItem] = useState({
-    firstName: '',
-    lastName: '',
-    email: '',
-    phoneNumber: '',
-    password: '',
-    gender: '',
-    roleId: ''
-  })
-  const { users, isLoading, count, page, setPage } = useUsers()
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
+    firstName: "",
+    lastName: "",
+    email: "",
+    phoneNumber: "",
+    password: "",
+    gender: "",
+    roleId: "",
+  });
+  const { users, isLoading, count, page, setPage } = useUsers();
+  const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
+  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   //const [page, setPage] = useState(currentPage)
 
-  const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/users?page=${newPage}`)
-  }
+  const pageChange = (newPage) => {
+    currentPage !== newPage && history.push(`/users?page=${newPage}`);
+  };
 
   const toggleOne = () => {
-    setModalOne(!modalOne)
-  }
+    setModalOne(!modalOne);
+  };
+
+  const toggleTwo = () => {
+    setModalTwo(!modalTwo);
+  };
 
   useEffect(() => {
-    currentPage !== page && setPage(currentPage)
-  }, [page])
+    currentPage !== page && setPage(currentPage);
+  }, [page]);
 
-  const handleChangeOne = event => {
-    const target = event.target
-    const value = target.value
-    setItem({ ...item, [event.target.name]: value })
-  }
-  const handleSubmitOne = async event => {
-    event.preventDefault()
+  const handleChangeOne = (event) => {
+    const target = event.target;
+    const value = target.value;
+    setItem({ ...item, [event.target.name]: value });
+  };
+  const handleSubmitOne = async (event) => {
+    event.preventDefault();
     //setSubmitting(true)
-    const item1 = { ...item }
+    const item1 = { ...item };
     try {
-      await postUserRegistration(item1)
+      await postUserRegistration(item1);
       //setSubmitting(false)
-      successNotification()
+      successNotification();
     } catch (err) {
-      errorNotification(err.response.data.message)
+      errorNotification(err.response.data.message);
       //setSubmitting(false)
     }
-  }
+  };
 
   return (
     <CRow>
       <CCol xl={6}>
         <CCard>
           <Toaster />
-          <CCardHeader>
-            Users
-          </CCardHeader>
+          <CCardHeader>Users</CCardHeader>
           <CCardBody>
             <CDataTable
               items={users}
               fields={[
-                { key: 'id', _classes: 'font-weight-bold' },
-                { key: 'firstName', _classes: 'font-weight-bold' },
-                'lastName',
-                'email',
-                { key: 'roleId', _classes: 'font-weight-bold' },
+                { key: "id", _classes: "font-weight-bold" },
+                { key: "firstName", _classes: "font-weight-bold" },
+                "lastName",
+                "email",
+                { key: "roleId", _classes: "font-weight-bold" },
               ]}
               hover
               striped
@@ -114,15 +119,15 @@ const Users = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
-              onRowClick={item => history.push(`/users/${item.id}`)}
+              onRowClick={(item) => history.push(`/users/${item.id}`)}
               scopedSlots={{
-                phoneNumber: item => (
+                phoneNumber: (item) => (
                   <td>
-                    <CBadge color={getBadge('Active')}>
+                    <CBadge color={getBadge("Active")}>
                       {item.phoneNumber}
                     </CBadge>
                   </td>
-                )
+                ),
               }}
             />
             {/* <CPagination
@@ -134,90 +139,111 @@ const Users = () => {
             /> */}
           </CCardBody>
         </CCard>
-        <CButton onClick={toggleOne} className='mr-1'>
+        <CButton
+          onClick={toggleOne}
+          className="mr-2"
+          color="primary"
+          shape="rounded-pill"
+        >
           Register User
+        </CButton>
+        <CButton onClick={toggleTwo} color="secondary" shape="rounded-pill">
+          View User Visuals
         </CButton>
         <CModal show={modalOne} onClose={toggleOne}>
           <CModalHeader closeButton>Register the user</CModalHeader>
           <form onSubmit={handleSubmitOne}>
             <CModalBody>
-              <CLabel htmlFor='firstName'>First Name</CLabel>
+              <CLabel htmlFor="firstName">First Name</CLabel>
               <CInput
-                id='firstName'
-                placeholder='Enter the first Name'
+                id="firstName"
+                placeholder="Enter the first Name"
                 required
-                name='firstName'
+                name="firstName"
                 onChange={handleChangeOne}
                 value={item.firstName}
               />
-              <CLabel htmlFor='lastName'>Last Name</CLabel>
+              <CLabel htmlFor="lastName">Last Name</CLabel>
               <CInput
-                id='lastName'
-                placeholder='Enter the last Name'
+                id="lastName"
+                placeholder="Enter the last Name"
                 required
-                name='lastName'
+                name="lastName"
                 onChange={handleChangeOne}
                 value={item.lastName}
               />
-              <CLabel htmlFor='email'>Email</CLabel>
+              <CLabel htmlFor="email">Email</CLabel>
               <CInput
-                id='email'
-                placeholder='Enter the email address'
+                id="email"
+                placeholder="Enter the email address"
                 required
-                name='email'
+                name="email"
                 onChange={handleChangeOne}
                 value={item.email}
               />
-              <CLabel htmlFor='phoneNumber'>Phone Number</CLabel>
+              <CLabel htmlFor="phoneNumber">Phone Number</CLabel>
               <CInput
-                id='phoneNumber'
-                placeholder='Enter the phoneNumber'
+                id="phoneNumber"
+                placeholder="Enter the phoneNumber"
                 required
-                name='phoneNumber'
+                name="phoneNumber"
                 onChange={handleChangeOne}
                 value={item.phoneNumber}
               />
-              <CLabel htmlFor='password'>Password</CLabel>
+              <CLabel htmlFor="password">Password</CLabel>
               <CInput
-                id='password'
-                placeholder='Enter the password'
+                id="password"
+                placeholder="Enter the password"
                 required
-                name='password'
+                name="password"
                 onChange={handleChangeOne}
                 value={item.password}
               />
-              <CLabel htmlFor='gender'>Gender</CLabel>
+              <CLabel htmlFor="gender">Gender</CLabel>
               <CInput
-                id='gender'
-                placeholder='Enter the gender'
+                id="gender"
+                placeholder="Enter the gender"
                 required
-                name='gender'
+                name="gender"
                 onChange={handleChangeOne}
                 value={item.gender}
               />
-              <CLabel htmlFor='roleId'>Role Id</CLabel>
+              <CLabel htmlFor="roleId">Role Id</CLabel>
               <CInput
-                id='roleId'
-                placeholder='Enter the role Id'
+                id="roleId"
+                placeholder="Enter the role Id"
                 required
-                name='roleId'
+                name="roleId"
                 onChange={handleChangeOne}
                 value={item.roleId}
               />
             </CModalBody>
             <CModalFooter>
-              <CButton color='primary' type='submit'>
+              <CButton color="primary" type="submit">
                 Confirm
-              </CButton>{' '}
-              <CButton color='secondary' onClick={toggleOne}>
+              </CButton>{" "}
+              <CButton color="secondary" onClick={toggleOne}>
                 Close
               </CButton>
             </CModalFooter>
           </form>
         </CModal>
+        <CModal show={modalTwo} onClose={toggleTwo}>
+          <CModalHeader closeButton className="btn__modal--text">
+            Rooms Size Line Chart
+          </CModalHeader>
+          <CModalBody>
+            <Charts />
+          </CModalBody>
+          <CModalFooter>
+            <CButton color="secondary" onClick={toggleTwo}>
+              Close
+            </CButton>
+          </CModalFooter>
+        </CModal>
       </CCol>
     </CRow>
-  )
-}
+  );
+};
 
-export default Users
+export default Users;

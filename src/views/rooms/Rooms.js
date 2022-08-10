@@ -20,8 +20,9 @@ import {
 
 import { useRooms } from "../../contexts/RoomContext";
 import { postRoom } from "src/services/APIUtils";
-import RoomsLineChart from "./RoomsLineChart";
+
 import Charts from "./Charts";
+import "./Charts.css";
 
 const getBadge = (status) => {
   switch (status) {
@@ -187,7 +188,9 @@ const Rooms = () => {
           </form>
         </CModal>
         <CModal show={modalTwo} onClose={toggleTwo}>
-          <CModalHeader closeButton>Rooms Size Line Chart</CModalHeader>
+          <CModalHeader closeButton className="btn__modal--text">
+            Rooms Size Line Chart
+          </CModalHeader>
           <CModalBody>
             <Charts />
           </CModalBody>
