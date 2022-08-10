@@ -3,37 +3,54 @@ import React, {
   useState,
   useContext,
   useEffect,
-  useCallback
-} from 'react'
+  useCallback,
+} from "react";
 
-import { getMemberPayments } from '../services/APIUtils'
+import {
+  getMemberPayments,
+  getTotalMemberPayments,
+} from "../services/APIUtils";
 
-export const PaymentContext = createContext()
+export const PaymentContext = createContext();
 
-export function usePayments () {
-  return useContext(PaymentContext)
+export function usePayments() {
+  return useContext(PaymentContext);
 }
 
-export const PaymentProvider = props => {
-  const [payments, setPayments] = useState([])
-  const [count, setCount] = useState(null)
-  const [page, setPage] = useState(0)
-  const [isLoading, setLoading] = useState(true)
+export const PaymentProvider = (props) => {
+  const [payments, setPayments] = useState([]);
+  const [memberPayments, setMemberPayments] = useState([]);
+  const [count, setCount] = useState(null);
+  const [page, setPage] = useState(0);
+  const [isLoading, setLoading] = useState(true);
 
   const fetchPayments = useCallback(async () => {
-    const res = await getMemberPayments(page)
-    const data = res?.data?.payments
-    const curr = res?.data?.currentPage
-    const num = res?.data?.totalPages
-    setCount(num)
-    setPage(curr)
-    setPayments(data)
-    setLoading(false)
-  }, [page])
+    const res = await getMemberPayments(page);
+    const data = res?.data?.payments;
+    const curr = res?.data?.currentPage;
+    const num = res?.data?.totalPages;
+    setCount(num);
+    setPage(curr);
+    setPayments(data);
+    setLoading(false);
+  }, [page]);
 
   useEffect(() => {
-    fetchPayments()
-  }, [fetchPayments])
+    fetchPayments();
+  }, [fetchPayments]);
+
+  const getMemberAmountPayments = async () => {
+    try {
+      const res = await getTotalMemberPayments();
+      setMemberPayments(res?.data);
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  useEffect(() => {
+    getMemberAmountPayments();
+  }, []);
 
   return (
     <PaymentContext.Provider
@@ -45,10 +62,11 @@ export const PaymentProvider = props => {
         setCount,
         setPage,
         isLoading,
-        setLoading
+        setLoading,
+        memberPayments,
       }}
     >
       {props.children}
     </PaymentContext.Provider>
-  )
-}
+  );
+};

@@ -1,0 +1,7 @@
+.modal__item {
+  margin: 10px;
+}
+.btn__modal--text {
+  font-family: "IBM Plex Sans", sans-serif;
+  font-weight: bold;
+}
