@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   CBadge,
   CCard,
@@ -15,141 +15,141 @@ import {
   CCol,
   CDataTable,
   CRow,
-  CPagination
-} from '@coreui/react'
-import toast, { Toaster } from 'react-hot-toast'
+  CPagination,
+} from "@coreui/react";
+import toast, { Toaster } from "react-hot-toast";
 
-import { useRegistrations } from '../../contexts/RegistrationContext'
+import { useRegistrations } from "../../contexts/RegistrationContext";
 import {
   activateUser,
   diactivateUser,
-  postMemberRegistration
-} from 'src/services/APIUtils'
+  postMemberRegistration,
+} from "src/services/APIUtils";
 
-const getBadge = status => {
+const getBadge = (status) => {
   switch (status) {
     case status <= new Date():
-      return 'success'
-    case '1':
-      return 'secondary'
-    case '13':
-      return 'warning'
-    case 'Banned':
-      return 'danger'
+      return "success";
+    case "1":
+      return "secondary";
+    case "13":
+      return "warning";
+    case "Banned":
+      return "danger";
     default:
-      return 'primary'
+      return "primary";
   }
-}
+};
 
-const getStatus = status => {
+const getStatus = (status) => {
   if (status < new Date()) {
-    console.log('Status A', status)
-    return 'inactive'
+    console.log("Status A", status);
+    return "inactive";
   } else if (status >= new Date()) {
-    console.log('Status B', status)
-    return 'active'
+    console.log("Status B", status);
+    return "active";
   } else {
-    console.log('Status C', status)
-    return 'being processed'
+    console.log("Status C", status);
+    return "being processed";
   }
-}
+};
 
 const successNotification = () =>
-  toast.success('Member registered successfully.')
+  toast.success("Member registered successfully.");
 const activateNotification = () =>
-  toast.success('Member activated successfully.')
+  toast.success("Member activated successfully.");
 const deactivateNotification = () =>
-  toast.success('Member deactivated successfully.')
+  toast.success("Member deactivated successfully.");
 
 const Registrations = () => {
-  const history = useHistory()
-  const { registrations, isLoading, count, page, setPage } = useRegistrations()
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
+  const history = useHistory();
+  const { registrations, isLoading, count, page, setPage } = useRegistrations();
+  const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
+  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   //const [page, setPage] = useState(currentPage)
-  const [modalOne, setModalOne] = useState(false)
-  const [modalTwo, setModalTwo] = useState(false)
-  const [modalThree, setModalThree] = useState(false)
-  const [sessionId, setSessionId] = useState('')
-  const [sessionThreeId, setSessionThreeId] = useState('')
-  const [userId, setUserId] = useState('')
+  const [modalOne, setModalOne] = useState(false);
+  const [modalTwo, setModalTwo] = useState(false);
+  const [modalThree, setModalThree] = useState(false);
+  const [sessionId, setSessionId] = useState("");
+  const [sessionThreeId, setSessionThreeId] = useState("");
+  const [userId, setUserId] = useState("");
 
   const toggleOne = () => {
-    setModalOne(!modalOne)
-  }
+    setModalOne(!modalOne);
+  };
   const toggleTwo = () => {
-    setModalTwo(!modalTwo)
-  }
+    setModalTwo(!modalTwo);
+  };
   const toggleUser = () => {
-    setModalThree(!modalThree)
-  }
+    setModalThree(!modalThree);
+  };
 
-  const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/registrations?page=${newPage}`)
-  }
+  const pageChange = (newPage) => {
+    currentPage !== newPage && history.push(`/registrations?page=${newPage}`);
+  };
 
   useEffect(() => {
-    currentPage !== page && setPage(currentPage)
-  }, [currentPage, page])
+    currentPage !== page && setPage(currentPage);
+  }, [currentPage, page]);
 
-  const handleUserChange = event => {
-    event.persist()
-    const target = event.target
-    const value = target.value
-    setUserId(value)
-  }
+  const handleUserChange = (event) => {
+    event.persist();
+    const target = event.target;
+    const value = target.value;
+    setUserId(value);
+  };
 
-  const handleUserSubmit = async event => {
-    event.preventDefault()
+  const handleUserSubmit = async (event) => {
+    event.preventDefault();
     //setSubmitting(true)
     try {
-      await postMemberRegistration({ userId: userId })
+      await postMemberRegistration({ userId: userId });
       //setSubmitting(false)
-      successNotification()
+      successNotification();
     } catch (err) {
-      console.log(err)
+      console.log(err);
       //setSubmitting(false)
     }
-  }
+  };
 
-  const handleChangeThree = event => {
-    event.persist()
-    const target = event.target
-    const value = target.value
-    setSessionThreeId(value)
-  }
+  const handleChangeThree = (event) => {
+    event.persist();
+    const target = event.target;
+    const value = target.value;
+    setSessionThreeId(value);
+  };
 
-  const handleSubmitThree = async event => {
-    event.preventDefault()
+  const handleSubmitThree = async (event) => {
+    event.preventDefault();
     //setSubmitting(true)
     try {
-      await diactivateUser({ memberId: sessionThreeId })
+      await diactivateUser({ memberId: sessionThreeId });
       //setSubmitting(false)
-      deactivateNotification()
+      deactivateNotification();
     } catch (err) {
-      console.log(err)
+      console.log(err);
       //setSubmitting(false)
     }
-  }
-  const handleChange = event => {
-    event.persist()
-    const target = event.target
-    const value = target.value
-    setSessionId(value)
-  }
+  };
+  const handleChange = (event) => {
+    event.persist();
+    const target = event.target;
+    const value = target.value;
+    setSessionId(value);
+  };
 
-  const handleSubmit = async event => {
-    event.preventDefault()
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     //setSubmitting(true)
     try {
-      await activateUser({ memberId: sessionId })
+      await activateUser({ memberId: sessionId });
       //setSubmitting(false)
-      activateNotification()
+      activateNotification();
     } catch (err) {
-      console.log(err)
+      console.log(err);
       //setSubmitting(false)
     }
-  }
+  };
 
   return (
     <CRow>
@@ -162,12 +162,12 @@ const Registrations = () => {
               items={registrations}
               fields={[
                 {
-                  key: 'id',
-                  _classes: 'font-weight-bold',
-                  label: 'Registration ID'
+                  key: "id",
+                  _classes: "font-weight-bold",
+                  label: "Registration ID",
                 },
-                { key: 'userId', label: 'User Id' },
-                { key: 'status', label: 'Member Status' }
+                { key: "userId", label: "User Id" },
+                { key: "status", label: "Member Status" },
               ]}
               hover
               striped
@@ -176,13 +176,13 @@ const Registrations = () => {
               clickableRows
               sorter
               pagination
-              onRowClick={item => history.push(`/registrations/${item.id}`)}
+              onRowClick={(item) => history.push(`/registrations/${item.id}`)}
               scopedSlots={{
-                status: item => (
+                status: (item) => (
                   <td>
                     <CBadge color={getBadge(item.status)}>{item.status}</CBadge>
                   </td>
-                )
+                ),
               }}
             />
             {/* <CPagination
@@ -194,33 +194,33 @@ const Registrations = () => {
             /> */}
           </CCardBody>
         </CCard>
-        <CButton onClick={toggleUser} className='mr-1'>
+        <CButton onClick={toggleUser} className="mr-1" color="primary">
           Register User
         </CButton>
-        <CButton onClick={toggleOne} className='mr-1'>
+        <CButton onClick={toggleOne} className="mr-1" color="secondary">
           Activate Member
         </CButton>
-        <CButton onClick={toggleTwo} className='mr-1'>
+        <CButton onClick={toggleTwo} color="primary" variant="outline">
           Deactivate Member
         </CButton>
         <CModal show={modalOne} onClose={toggleOne}>
           <CModalHeader closeButton>Activate the member</CModalHeader>
           <form onSubmit={handleSubmit}>
             <CModalBody>
-              <CLabel htmlFor='memberId'>Member ID</CLabel>
+              <CLabel htmlFor="memberId">Member ID</CLabel>
               <CInput
-                id='memberId'
-                placeholder='Enter the member ID'
+                id="memberId"
+                placeholder="Enter the member ID"
                 required
                 onChange={handleChange}
                 value={sessionId}
               />
             </CModalBody>
             <CModalFooter>
-              <CButton color='primary' type='submit'>
+              <CButton color="primary" type="submit">
                 Confirm
-              </CButton>{' '}
-              <CButton color='secondary' onClick={toggleOne}>
+              </CButton>{" "}
+              <CButton color="secondary" onClick={toggleOne}>
                 Close
               </CButton>
             </CModalFooter>
@@ -230,20 +230,20 @@ const Registrations = () => {
           <CModalHeader closeButton>Diactivate the member</CModalHeader>
           <form onSubmit={handleSubmitThree}>
             <CModalBody>
-              <CLabel htmlFor='memberId'>Member ID</CLabel>
+              <CLabel htmlFor="memberId">Member ID</CLabel>
               <CInput
-                id='memberId'
-                placeholder='Enter the member ID'
+                id="memberId"
+                placeholder="Enter the member ID"
                 required
                 onChange={handleChangeThree}
                 value={sessionThreeId}
               />
             </CModalBody>
             <CModalFooter>
-              <CButton color='primary' type='submit'>
+              <CButton color="primary" type="submit">
                 Confirm
-              </CButton>{' '}
-              <CButton color='secondary' onClick={toggleTwo}>
+              </CButton>{" "}
+              <CButton color="secondary" onClick={toggleTwo}>
                 Close
               </CButton>
             </CModalFooter>
@@ -253,20 +253,20 @@ const Registrations = () => {
           <CModalHeader closeButton>Register the member</CModalHeader>
           <form onSubmit={handleUserSubmit}>
             <CModalBody>
-              <CLabel htmlFor='userId'>User ID</CLabel>
+              <CLabel htmlFor="userId">User ID</CLabel>
               <CInput
-                id='userId'
-                placeholder='Enter the user ID'
+                id="userId"
+                placeholder="Enter the user ID"
                 required
                 onChange={handleUserChange}
                 value={userId}
               />
             </CModalBody>
             <CModalFooter>
-              <CButton color='primary' type='submit'>
+              <CButton color="primary" type="submit">
                 Confirm
-              </CButton>{' '}
-              <CButton color='secondary' onClick={toggleUser}>
+              </CButton>{" "}
+              <CButton color="secondary" onClick={toggleUser}>
                 Close
               </CButton>
             </CModalFooter>
@@ -274,7 +274,7 @@ const Registrations = () => {
         </CModal>
       </CCol>
     </CRow>
-  )
-}
+  );
+};
 
-export default Registrations
+export default Registrations;
