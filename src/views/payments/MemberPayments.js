@@ -259,11 +259,12 @@ const MemberPayments = () => {
         </CButton>
         <CButton
           onClick={toggleThree}
-          color="secondary"
+          color="primary"
+          variant="outline"
           shape="rounded-pill"
           className="mr-2"
         >
-          View Room Visuals
+          View Payment Visuals
         </CButton>
         <CModal show={modalOne} onClose={toggleOne}>
           <CModalHeader closeButton>Register Payment</CModalHeader>
