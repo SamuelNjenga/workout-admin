@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   CBadge,
   CCard,
@@ -15,84 +15,84 @@ import {
   CInput,
   CModalBody,
   CModalHeader,
-  CModal
-} from '@coreui/react'
+  CModal,
+} from "@coreui/react";
 
-import { useServiceTypes } from '../../contexts/ServiceTypeContext'
-import { postServiceType } from 'src/services/APIUtils'
+import { useServiceTypes } from "../../contexts/ServiceTypeContext";
+import { postServiceType } from "src/services/APIUtils";
 
-const getBadge = status => {
+const getBadge = (status) => {
   switch (status) {
     case status <= new Date():
-      return 'success'
-    case '1':
-      return 'secondary'
-    case '13':
-      return 'warning'
-    case 'Banned':
-      return 'danger'
+      return "success";
+    case "1":
+      return "secondary";
+    case "13":
+      return "warning";
+    case "Banned":
+      return "danger";
     default:
-      return 'primary'
+      return "primary";
   }
-}
+};
 
-const getStatus = status => {
+const getStatus = (status) => {
   if (status < new Date()) {
-    console.log('Status A', status)
-    return 'inactive'
+    console.log("Status A", status);
+    return "inactive";
   } else if (status >= new Date()) {
-    console.log('Status B', status)
-    return 'active'
+    console.log("Status B", status);
+    return "active";
   } else {
-    console.log('Status C', status)
-    return 'being processed'
+    console.log("Status C", status);
+    return "being processed";
   }
-}
+};
 
 const ServiceTypes = () => {
-  const [modalOne, setModalOne] = useState(false)
+  const [modalOne, setModalOne] = useState(false);
   const [item, setItem] = useState({
-    name: '',
-    description: '',
-  })
+    name: "",
+    description: "",
+  });
 
-  const history = useHistory()
-  const { serviceTypes, isLoading, count, page, setPage } = useServiceTypes()
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
+  const history = useHistory();
+  const { serviceTypes, isLoading, count, page, setPage } = useServiceTypes();
+  const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
+  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   //const [page, setPage] = useState(currentPage)
 
-  const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/serviceTypes?page=${newPage}`)
-  }
+  const pageChange = (newPage) => {
+    currentPage !== newPage && history.push(`/serviceTypes?page=${newPage}`);
+  };
 
   const toggleOne = () => {
-    setModalOne(!modalOne)
-  }
+    setModalOne(!modalOne);
+  };
 
   useEffect(() => {
-    currentPage !== page && setPage(currentPage)
-  }, [currentPage, page])
+    currentPage !== page && setPage(currentPage);
+  }, [currentPage, page]);
 
-  const handleChange = event => {
-    const target = event.target
-    const value = target.value
-    setItem({ ...item, [event.target.name]: value })
-  }
+  const handleChange = (event) => {
+    const target = event.target;
+    const value = target.value;
+    setItem({ ...item, [event.target.name]: value });
+  };
 
-  const handleSubmit = async event => {
-    event.preventDefault()
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     //setSubmitting(true)
-    const item1 = { ...item }
+    const item1 = { ...item };
     try {
-      await postServiceType(item1)
+      await postServiceType(item1);
       //setSubmitting(false)
       //notify()
     } catch (err) {
-      console.log(err)
+      console.log(err);
       //setSubmitting(false)
     }
-  }
+  };
 
   return (
     <CRow>
@@ -104,12 +104,12 @@ const ServiceTypes = () => {
               items={serviceTypes}
               fields={[
                 {
-                  key: 'id',
-                  _classes: 'font-weight-bold',
-                  label: 'Service ID'
+                  key: "id",
+                  _classes: "font-weight-bold",
+                  label: "Service ID",
                 },
-                { key: 'name', label: 'Service Name' },
-                { key: 'description', label: 'Service Description' }
+                { key: "name", label: "Service Name" },
+                { key: "description", label: "Service Description" },
               ]}
               hover
               striped
@@ -117,13 +117,13 @@ const ServiceTypes = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
-              onRowClick={item => history.push(`/serviceTypes/${item.id}`)}
+              onRowClick={(item) => history.push(`/serviceTypes/${item.id}`)}
               scopedSlots={{
-                name: item => (
+                name: (item) => (
                   <td>
                     <CBadge color={getBadge(item.status)}>{item.name}</CBadge>
                   </td>
-                )
+                ),
               }}
             />
             <CPagination
@@ -131,11 +131,11 @@ const ServiceTypes = () => {
               onActivePageChange={pageChange}
               pages={5}
               doubleArrows={false}
-              align='center'
+              align="center"
             />
           </CCardBody>
         </CCard>
-        <CButton onClick={toggleOne} className='mr-1'>
+        <CButton onClick={toggleOne} className="mr-1" color="primary">
           Register Service Type
         </CButton>
 
@@ -143,30 +143,30 @@ const ServiceTypes = () => {
           <CModalHeader closeButton>Register Service Type</CModalHeader>
           <form onSubmit={handleSubmit}>
             <CModalBody>
-              <CLabel htmlFor='name'>Service Name</CLabel>
+              <CLabel htmlFor="name">Service Name</CLabel>
               <CInput
-                id='name'
-                placeholder='Enter the Service Name'
+                id="name"
+                placeholder="Enter the Service Name"
                 required
-                name='name'
+                name="name"
                 onChange={handleChange}
                 value={item.name}
               />
-              <CLabel htmlFor='description'>Service Description</CLabel>
+              <CLabel htmlFor="description">Service Description</CLabel>
               <CInput
-                id='description'
-                placeholder='Enter the Service Description'
+                id="description"
+                placeholder="Enter the Service Description"
                 required
-                name='description'
+                name="description"
                 onChange={handleChange}
                 value={item.description}
               />
             </CModalBody>
             <CModalFooter>
-              <CButton color='primary' type='submit'>
+              <CButton color="primary" type="submit">
                 Confirm
-              </CButton>{' '}
-              <CButton color='secondary' onClick={toggleOne}>
+              </CButton>{" "}
+              <CButton color="secondary" onClick={toggleOne}>
                 Cancel
               </CButton>
             </CModalFooter>
@@ -174,7 +174,7 @@ const ServiceTypes = () => {
         </CModal>
       </CCol>
     </CRow>
-  )
-}
+  );
+};
 
-export default ServiceTypes
+export default ServiceTypes;
