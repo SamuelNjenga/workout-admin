@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   CBadge,
   CCard,
@@ -15,177 +15,177 @@ import {
   CCol,
   CDataTable,
   CRow,
-  CPagination
-} from '@coreui/react'
-import moment from 'moment'
-import toast, { Toaster } from 'react-hot-toast'
-import { DateTimePicker, MuiPickersUtilsProvider } from '@material-ui/pickers'
-import DateFnsUtils from '@date-io/date-fns'
+  CPagination,
+} from "@coreui/react";
+import moment from "moment";
+import toast, { Toaster } from "react-hot-toast";
+import { DateTimePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
+import DateFnsUtils from "@date-io/date-fns";
 
-import { useTrainingSessions } from '../../contexts/TrainingSessionContext'
+import { useTrainingSessions } from "../../contexts/TrainingSessionContext";
 import {
   endSession,
   postponeSession,
   cancelSession,
-  postSession
-} from 'src/services/APIUtils'
+  postSession,
+} from "src/services/APIUtils";
 
-const getBadge = status => {
+const getBadge = (status) => {
   switch (status) {
     case status <= new Date():
-      return 'success'
-    case '1':
-      return 'secondary'
-    case '13':
-      return 'warning'
-    case 'Banned':
-      return 'danger'
+      return "success";
+    case "1":
+      return "secondary";
+    case "13":
+      return "warning";
+    case "Banned":
+      return "danger";
     default:
-      return 'primary'
+      return "primary";
   }
-}
+};
 
-const getStatus = status => {
+const getStatus = (status) => {
   if (status < new Date()) {
-    console.log('Status A', status)
-    return 'inactive'
+    console.log("Status A", status);
+    return "inactive";
   } else if (status >= new Date()) {
-    console.log('Status B', status)
-    return 'active'
+    console.log("Status B", status);
+    return "active";
   } else {
-    console.log('Status C', status)
-    return 'being processed'
+    console.log("Status C", status);
+    return "being processed";
   }
-}
+};
 
-const notify = error => toast.error(`${error}`)
+const notify = (error) => toast.error(`${error}`);
 const successNotification = () =>
-  toast.success('Session registered successfully.')
-const cancelNotification = sessionId =>
-  toast.success(`Session ${sessionId} has been cancelled successfully.`)
-const endNotification = sessionId =>
-  toast.success(`Session ${sessionId} has been ended successfully.`)
-const postponeNotification = sessionId =>
-  toast.success(`Session ${sessionId} has been postponed successfully.`)
+  toast.success("Session registered successfully.");
+const cancelNotification = (sessionId) =>
+  toast.success(`Session ${sessionId} has been cancelled successfully.`);
+const endNotification = (sessionId) =>
+  toast.success(`Session ${sessionId} has been ended successfully.`);
+const postponeNotification = (sessionId) =>
+  toast.success(`Session ${sessionId} has been postponed successfully.`);
 
 const TrainingSessions = () => {
-  const history = useHistory()
-  const [fromATime, onChangeFromATime] = useState(new Date())
-  const [toATime, onChangeToATime] = useState(new Date())
-  const [fromBTime, onChangeFromBTime] = useState(new Date())
-  const [toBTime, onChangeToBTime] = useState(new Date())
+  const history = useHistory();
+  const [fromATime, onChangeFromATime] = useState(new Date());
+  const [toATime, onChangeToATime] = useState(new Date());
+  const [fromBTime, onChangeFromBTime] = useState(new Date());
+  const [toBTime, onChangeToBTime] = useState(new Date());
 
-  const [modalOne, setModalOne] = useState(false)
-  const [modalTwo, setModalTwo] = useState(false)
-  const [modalThree, setModalThree] = useState(false)
-  const [modalFour, setModalFour] = useState(false)
-  const [sessionId, setSessionId] = useState('')
-  const [sessionThreeId, setSessionThreeId] = useState('')
+  const [modalOne, setModalOne] = useState(false);
+  const [modalTwo, setModalTwo] = useState(false);
+  const [modalThree, setModalThree] = useState(false);
+  const [modalFour, setModalFour] = useState(false);
+  const [sessionId, setSessionId] = useState("");
+  const [sessionThreeId, setSessionThreeId] = useState("");
 
-  const [errOne, setErrorOne] = useState('')
+  const [errOne, setErrorOne] = useState("");
 
   const [item, setItem] = useState({
-    sessionId: '',
-    startTime: '',
-    trainerId: ''
-  })
+    sessionId: "",
+    startTime: "",
+    trainerId: "",
+  });
 
   const [session, setSession] = useState({
-    serviceId: '',
-    maxMembers: '',
-    startTime: '',
-    endTime: '',
-    roomId: '',
-    trainerId: '',
-    image: ''
-  })
+    serviceId: "",
+    maxMembers: "",
+    startTime: "",
+    endTime: "",
+    roomId: "",
+    trainerId: "",
+    image: "",
+  });
 
   const toggleOne = () => {
-    setModalOne(!modalOne)
-  }
+    setModalOne(!modalOne);
+  };
   const toggleTwo = () => {
-    setModalTwo(!modalTwo)
-  }
+    setModalTwo(!modalTwo);
+  };
 
   const toggleThree = () => {
-    setModalThree(!modalThree)
-  }
+    setModalThree(!modalThree);
+  };
   const toggleFour = () => {
-    setModalFour(!modalFour)
-  }
+    setModalFour(!modalFour);
+  };
 
-  const handleChange = event => {
-    event.persist()
-    const target = event.target
-    const value = target.value
-    setSessionId(value)
-  }
+  const handleChange = (event) => {
+    event.persist();
+    const target = event.target;
+    const value = target.value;
+    setSessionId(value);
+  };
 
-  const handleSubmit = async event => {
-    event.preventDefault()
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     //setSubmitting(true)
     try {
-      await cancelSession({ sessionId })
+      await cancelSession({ sessionId });
       //setSubmitting(false)
-      cancelNotification(sessionId)
+      cancelNotification(sessionId);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       //setSubmitting(false)
     }
-  }
+  };
 
-  const handleChangeTwo = event => {
-    const target = event.target
-    const value = target.value
-    setItem({ ...item, [event.target.name]: value })
-  }
+  const handleChangeTwo = (event) => {
+    const target = event.target;
+    const value = target.value;
+    setItem({ ...item, [event.target.name]: value });
+  };
 
-  const handleSubmitTwo = async event => {
-    event.preventDefault()
+  const handleSubmitTwo = async (event) => {
+    event.preventDefault();
     //setSubmitting(true)
-    const item1 = { ...item }
+    const item1 = { ...item };
     try {
       await postponeSession({
         sessionId: item.sessionId,
         startTime: fromATime,
         endTime: toATime,
         roomId: item.roomId,
-        trainerId: item.trainerId
-      })
+        trainerId: item.trainerId,
+      });
       //setSubmitting(false)
-      postponeNotification(item1.sessionId)
+      postponeNotification(item1.sessionId);
     } catch (err) {
-      notify(err.response.data.message)
+      notify(err.response.data.message);
     }
-  }
+  };
 
-  const handleChangeThree = event => {
-    event.persist()
-    const target = event.target
-    const value = target.value
-    setSessionThreeId(value)
-  }
+  const handleChangeThree = (event) => {
+    event.persist();
+    const target = event.target;
+    const value = target.value;
+    setSessionThreeId(value);
+  };
 
-  const handleSubmitThree = async event => {
-    event.preventDefault()
+  const handleSubmitThree = async (event) => {
+    event.preventDefault();
     //setSubmitting(true)
     try {
-      await endSession({ sessionId: sessionThreeId })
+      await endSession({ sessionId: sessionThreeId });
       //setSubmitting(false)
-      endNotification(sessionThreeId)
+      endNotification(sessionThreeId);
     } catch (err) {
-      console.log(err)
+      console.log(err);
       //setSubmitting(false)
     }
-  }
+  };
 
-  const handleChangeFour = event => {
-    const target = event.target
-    const value = target.value
-    setSession({ ...session, [event.target.name]: value })
-  }
-  const handleSubmitFour = async event => {
-    event.preventDefault()
+  const handleChangeFour = (event) => {
+    const target = event.target;
+    const value = target.value;
+    setSession({ ...session, [event.target.name]: value });
+  };
+  const handleSubmitFour = async (event) => {
+    event.preventDefault();
     //setSubmitting(true)
     // const session1 = { ...session }
     try {
@@ -196,34 +196,35 @@ const TrainingSessions = () => {
         endTime: toBTime,
         roomId: session.roomId,
         trainerId: session.trainerId,
-        image: session.image
-      })
+        image: session.image,
+      });
       //setSubmitting(false)
-      successNotification()
+      successNotification();
     } catch (err) {
-      notify(err.response.data.message)
+      notify(err.response.data.message);
       //setSubmitting(false)
     }
-  }
+  };
 
   const {
     trainingSessions,
     isLoading,
     count,
     page,
-    setPage
-  } = useTrainingSessions()
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
+    setPage,
+  } = useTrainingSessions();
+  const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
+  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   //const [page, setPage] = useState(currentPage)
 
-  const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/trainingSessions?page=${newPage}`)
-  }
+  const pageChange = (newPage) => {
+    currentPage !== newPage &&
+      history.push(`/trainingSessions?page=${newPage}`);
+  };
 
   useEffect(() => {
-    currentPage !== page && setPage(currentPage)
-  }, [currentPage, page])
+    currentPage !== page && setPage(currentPage);
+  }, [currentPage, page]);
 
   return (
     <CRow>
@@ -236,19 +237,19 @@ const TrainingSessions = () => {
               items={trainingSessions}
               fields={[
                 {
-                  key: 'id',
-                  _classes: 'font-weight-bold',
-                  label: 'Session ID'
+                  key: "id",
+                  _classes: "font-weight-bold",
+                  label: "Session ID",
                 },
-                { key: 'serviceId', label: 'Service Type Id' },
-                { key: 'active', label: 'Active' },
-                { key: 'maxMembers', label: 'Max No' },
-                { key: 'membersSoFar', label: 'Members So Far' },
-                { key: 'startTime', label: 'Start Time' },
-                { key: 'endTime', label: 'End Time' },
-                { key: 'roomId', label: 'Room Id' },
-                { key: 'state', label: 'Status' },
-                { key: 'trainerId', label: 'Trainer Id' }
+                { key: "serviceId", label: "Service Type Id" },
+                { key: "active", label: "Active" },
+                { key: "maxMembers", label: "Max No" },
+                { key: "membersSoFar", label: "Members So Far" },
+                { key: "startTime", label: "Start Time" },
+                { key: "endTime", label: "End Time" },
+                { key: "roomId", label: "Room Id" },
+                { key: "state", label: "Status" },
+                { key: "trainerId", label: "Trainer Id" },
               ]}
               hover
               striped
@@ -256,27 +257,29 @@ const TrainingSessions = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
-              onRowClick={item => history.push(`/trainingSessions/${item.id}`)}
+              onRowClick={(item) =>
+                history.push(`/trainingSessions/${item.id}`)
+              }
               scopedSlots={{
-                state: item => (
+                state: (item) => (
                   <td>
                     <CBadge color={getBadge(item.status)}>{item.state}</CBadge>
                   </td>
                 ),
-                startTime: item => (
+                startTime: (item) => (
                   <td>
                     <CBadge color={getBadge(item.status)}>
-                      {moment(item.startTime).format('MMMM Do YYYY, h:mm:ss a')}
+                      {moment(item.startTime).format("MMMM Do YYYY, h:mm:ss a")}
                     </CBadge>
                   </td>
                 ),
-                endTime: item => (
+                endTime: (item) => (
                   <td>
                     <CBadge color={getBadge(item.status)}>
-                      {moment(item.endTime).format('MMMM Do YYYY, h:mm:ss a')}
+                      {moment(item.endTime).format("MMMM Do YYYY, h:mm:ss a")}
                     </CBadge>
                   </td>
-                )
+                ),
               }}
             />
             <CPagination
@@ -284,20 +287,30 @@ const TrainingSessions = () => {
               onActivePageChange={pageChange}
               pages={5}
               doubleArrows={false}
-              align='center'
+              align="center"
             />
           </CCardBody>
         </CCard>
-        <CButton onClick={toggleFour} className='mr-1'>
+        <CButton onClick={toggleFour} className="mr-1" color="primary">
           Register Session
         </CButton>
-        <CButton onClick={toggleOne} className='mr-1'>
+        <CButton onClick={toggleOne} className="mr-1" color="secondary">
           Cancel Session
         </CButton>
-        <CButton onClick={toggleTwo} className='mr-1'>
+        <CButton
+          onClick={toggleTwo}
+          className="mr-1"
+          color="primary"
+          variant="outline"
+        >
           Postpone Session
         </CButton>
-        <CButton onClick={toggleThree} className='mr-1'>
+        <CButton
+          onClick={toggleThree}
+          className="mr-1"
+          color="primary"
+          variant="ghost"
+        >
           End Session
         </CButton>
 
@@ -305,20 +318,20 @@ const TrainingSessions = () => {
           <CModalHeader closeButton>Cancel the session</CModalHeader>
           <form onSubmit={handleSubmit}>
             <CModalBody>
-              <CLabel htmlFor='sessionId'>Session ID</CLabel>
+              <CLabel htmlFor="sessionId">Session ID</CLabel>
               <CInput
-                id='sessionId'
-                placeholder='Enter the session ID'
+                id="sessionId"
+                placeholder="Enter the session ID"
                 required
                 onChange={handleChange}
                 value={sessionId}
               />
             </CModalBody>
             <CModalFooter>
-              <CButton color='primary' type='submit'>
+              <CButton color="primary" type="submit">
                 Confirm
-              </CButton>{' '}
-              <CButton color='secondary' onClick={toggleOne}>
+              </CButton>{" "}
+              <CButton color="secondary" onClick={toggleOne}>
                 Close
               </CButton>
             </CModalFooter>
@@ -328,29 +341,29 @@ const TrainingSessions = () => {
           <CModalHeader closeButton>Postpone the session</CModalHeader>
           <form onSubmit={handleSubmitTwo}>
             <CModalBody>
-              <CLabel htmlFor='sessionId'>Session ID</CLabel>
+              <CLabel htmlFor="sessionId">Session ID</CLabel>
               <CInput
-                id='sessionId'
-                placeholder='Enter the session ID'
+                id="sessionId"
+                placeholder="Enter the session ID"
                 required
-                name='sessionId'
+                name="sessionId"
                 onChange={handleChangeTwo}
                 value={item.sessionId}
               />
               <br />
-              <CLabel htmlFor='fromTime'>From</CLabel>
+              <CLabel htmlFor="fromTime">From</CLabel>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DateTimePicker
-                  id='fromTime'
-                  name='fromTime'
+                  id="fromTime"
+                  name="fromTime"
                   // label="From Time"
                   onChange={onChangeFromATime}
                   value={fromATime}
                 />
-                <CLabel htmlFor='toTime'>To </CLabel>
+                <CLabel htmlFor="toTime">To </CLabel>
                 <DateTimePicker
-                  id='toTime'
-                  name='toTime'
+                  id="toTime"
+                  name="toTime"
                   // label="To Time"
                   onChange={onChangeToATime}
                   value={toATime}
@@ -358,30 +371,30 @@ const TrainingSessions = () => {
               </MuiPickersUtilsProvider>
               <br />
               <br />
-              <CLabel htmlFor='sessionId'>Room ID</CLabel>
+              <CLabel htmlFor="sessionId">Room ID</CLabel>
               <CInput
-                id='roomId'
-                placeholder='Enter the room ID'
+                id="roomId"
+                placeholder="Enter the room ID"
                 required
-                name='roomId'
+                name="roomId"
                 onChange={handleChangeTwo}
                 value={item.roomId}
               />
-              <CLabel htmlFor='trainerId'>Trainer ID</CLabel>
+              <CLabel htmlFor="trainerId">Trainer ID</CLabel>
               <CInput
-                id='trainerId'
-                placeholder='Enter the trainer ID'
+                id="trainerId"
+                placeholder="Enter the trainer ID"
                 required
-                name='trainerId'
+                name="trainerId"
                 onChange={handleChangeTwo}
                 value={item.trainerId}
               />
             </CModalBody>
             <CModalFooter>
-              <CButton color='primary' type='submit'>
+              <CButton color="primary" type="submit">
                 Confirm
-              </CButton>{' '}
-              <CButton color='secondary' onClick={toggleTwo}>
+              </CButton>{" "}
+              <CButton color="secondary" onClick={toggleTwo}>
                 Close
               </CButton>
             </CModalFooter>
@@ -391,20 +404,20 @@ const TrainingSessions = () => {
           <CModalHeader closeButton>End the session</CModalHeader>
           <form onSubmit={handleSubmitThree}>
             <CModalBody>
-              <CLabel htmlFor='sessionId'>Session ID</CLabel>
+              <CLabel htmlFor="sessionId">Session ID</CLabel>
               <CInput
-                id='sessionId'
-                placeholder='Enter the session ID'
+                id="sessionId"
+                placeholder="Enter the session ID"
                 required
                 onChange={handleChangeThree}
                 value={sessionThreeId}
               />
             </CModalBody>
             <CModalFooter>
-              <CButton color='primary' type='submit'>
+              <CButton color="primary" type="submit">
                 Confirm
-              </CButton>{' '}
-              <CButton color='secondary' onClick={toggleThree}>
+              </CButton>{" "}
+              <CButton color="secondary" onClick={toggleThree}>
                 Close
               </CButton>
             </CModalFooter>
@@ -414,38 +427,38 @@ const TrainingSessions = () => {
           <CModalHeader closeButton>Register the session</CModalHeader>
           <form onSubmit={handleSubmitFour}>
             <CModalBody>
-              <CLabel htmlFor='sessionId'>Service ID</CLabel>
+              <CLabel htmlFor="sessionId">Service ID</CLabel>
               <CInput
-                id='serviceId'
-                placeholder='Enter the service ID'
+                id="serviceId"
+                placeholder="Enter the service ID"
                 required
-                name='serviceId'
+                name="serviceId"
                 onChange={handleChangeFour}
                 value={session.serviceId}
               />
-              <CLabel htmlFor='maxMembers'>Max Members</CLabel>
+              <CLabel htmlFor="maxMembers">Max Members</CLabel>
               <CInput
-                id='maxMembers'
-                placeholder='Enter the max members'
+                id="maxMembers"
+                placeholder="Enter the max members"
                 required
-                name='maxMembers'
+                name="maxMembers"
                 onChange={handleChangeFour}
                 value={session.maxMembers}
               />
               <br />
-              <CLabel htmlFor='fromTime'>From</CLabel>
+              <CLabel htmlFor="fromTime">From</CLabel>
               <MuiPickersUtilsProvider utils={DateFnsUtils}>
                 <DateTimePicker
-                  id='fromTime'
-                  name='fromTime'
+                  id="fromTime"
+                  name="fromTime"
                   // label="From Time"
                   onChange={onChangeFromBTime}
                   value={fromBTime}
                 />
-                <CLabel htmlFor='toTime'>To </CLabel>
+                <CLabel htmlFor="toTime">To </CLabel>
                 <DateTimePicker
-                  id='toTime'
-                  name='toTime'
+                  id="toTime"
+                  name="toTime"
                   // label="To Time"
                   onChange={onChangeToBTime}
                   value={toBTime}
@@ -453,39 +466,39 @@ const TrainingSessions = () => {
               </MuiPickersUtilsProvider>
               <br />
               <br />
-              <CLabel htmlFor='trainerId'>Trainer ID</CLabel>
+              <CLabel htmlFor="trainerId">Trainer ID</CLabel>
               <CInput
-                id='trainerId'
-                placeholder='Enter the trainer ID'
+                id="trainerId"
+                placeholder="Enter the trainer ID"
                 required
-                name='trainerId'
+                name="trainerId"
                 onChange={handleChangeFour}
                 value={session.trainerId}
               />
-              <CLabel htmlFor='sessionId'>Room ID</CLabel>
+              <CLabel htmlFor="sessionId">Room ID</CLabel>
               <CInput
-                id='roomId'
-                placeholder='Enter the room ID'
+                id="roomId"
+                placeholder="Enter the room ID"
                 required
-                name='roomId'
+                name="roomId"
                 onChange={handleChangeFour}
                 value={session.roomId}
               />
-              <CLabel htmlFor='sessionId'>Image</CLabel>
+              <CLabel htmlFor="sessionId">Image</CLabel>
               <CInput
-                id='image'
-                placeholder='Enter the session image'
+                id="image"
+                placeholder="Enter the session image"
                 required
-                name='image'
+                name="image"
                 onChange={handleChangeFour}
                 value={session.image}
               />
             </CModalBody>
             <CModalFooter>
-              <CButton color='primary' type='submit'>
+              <CButton color="primary" type="submit">
                 Confirm
-              </CButton>{' '}
-              <CButton color='secondary' onClick={toggleFour}>
+              </CButton>{" "}
+              <CButton color="secondary" onClick={toggleFour}>
                 Close
               </CButton>
             </CModalFooter>
@@ -493,7 +506,7 @@ const TrainingSessions = () => {
         </CModal>
       </CCol>
     </CRow>
-  )
-}
+  );
+};
 
-export default TrainingSessions
+export default TrainingSessions;
