@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react'
-import { useHistory, useLocation } from 'react-router-dom'
+import React, { useState, useEffect } from "react";
+import { useHistory, useLocation } from "react-router-dom";
 import {
   CBadge,
   CCard,
@@ -15,98 +15,100 @@ import {
   CLabel,
   CInput,
   CModalFooter,
-  CButton
-} from '@coreui/react'
-import toast, { Toaster } from 'react-hot-toast'
+  CButton,
+} from "@coreui/react";
+import toast, { Toaster } from "react-hot-toast";
 
-import { useTrainerProfiles } from 'src/contexts/TrainerProfileContext'
-import { postTrainerProfile } from 'src/services/APIUtils'
+import { useTrainerProfiles } from "src/contexts/TrainerProfileContext";
+import { postTrainerProfile } from "src/services/APIUtils";
 
-const getBadge = status => {
+import './TrainerProfile.css'
+
+const getBadge = (status) => {
   switch (status) {
-    case 'Active':
-      return 'success'
-    case 'Inactive':
-      return 'secondary'
-    case 'Pending':
-      return 'warning'
-    case 'Banned':
-      return 'danger'
+    case "Active":
+      return "success";
+    case "Inactive":
+      return "secondary";
+    case "Pending":
+      return "warning";
+    case "Banned":
+      return "danger";
     default:
-      return 'primary'
+      return "primary";
   }
-}
+};
 
 const successNotification = () =>
-  toast.success('Trainer profile registered successfully.')
+  toast.success("Trainer profile registered successfully.");
 
 const TrainerProfiles = () => {
-  const [modalOne, setModalOne] = useState(false)
+  const [modalOne, setModalOne] = useState(false);
   const [item, setItem] = useState({
-    userId: '',
-    specialization: ''
-  })
-  const history = useHistory()
+    userId: "",
+    specialization: "",
+  });
+  const history = useHistory();
   const {
     trainerProfiles,
     isLoading,
     count,
     page,
-    setPage
-  } = useTrainerProfiles()
-  const queryPage = useLocation().search.match(/page=([0-9]+)/, '')
-  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1)
+    setPage,
+  } = useTrainerProfiles();
+  const queryPage = useLocation().search.match(/page=([0-9]+)/, "");
+  const currentPage = Number(queryPage && queryPage[1] ? queryPage[1] : 1);
   //const [page, setPage] = useState(currentPage)
 
-  const pageChange = newPage => {
-    currentPage !== newPage && history.push(`/trainerProfiles?page=${newPage}`)
-  }
+  const pageChange = (newPage) => {
+    currentPage !== newPage && history.push(`/trainerProfiles?page=${newPage}`);
+  };
 
   useEffect(() => {
-    currentPage !== page && setPage(currentPage)
-  }, [page, currentPage])
+    currentPage !== page && setPage(currentPage);
+  }, [page, currentPage]);
 
   const toggleOne = () => {
-    setModalOne(!modalOne)
-  }
+    setModalOne(!modalOne);
+  };
 
-  const handleChange = event => {
-    const target = event.target
-    const value = target.value
-    setItem({ ...item, [event.target.name]: value })
-  }
+  const handleChange = (event) => {
+    const target = event.target;
+    const value = target.value;
+    setItem({ ...item, [event.target.name]: value });
+  };
 
-  const handleSubmit = async event => {
-    event.preventDefault()
+  const handleSubmit = async (event) => {
+    event.preventDefault();
     //setSubmitting(true)
-    const item1 = { ...item }
+    const item1 = { ...item };
     try {
-      await postTrainerProfile(item1)
+      await postTrainerProfile(item1);
       //setSubmitting(false)
-      successNotification()
+      successNotification();
     } catch (err) {
-      console.log(err)
+      console.log(err);
       //setSubmitting(false)
     }
-  }
+  };
 
   return (
     <CRow>
       <CCol xl={6}>
         <CCard>
-        <Toaster />
+          <Toaster />
           <CCardHeader>Trainer Profiles</CCardHeader>
           <CCardBody>
             <CDataTable
               items={trainerProfiles}
               fields={[
                 {
-                  key: 'id',
-                  label: 'Trainer Id',
-                  _classes: 'font-weight-bold'
+                  key: "id",
+                  label: "Trainer Id",
+                  _classes: "font-weight-bold",
                 },
-                { key: 'specialization', label: 'Main Specialization Area' },
-                {key:'userId', label: 'User Id'}
+                { key: "specialization", label: "Main Specialization Area" },
+                { key: "userId", label: "User Id" },
               ]}
               hover
               striped
@@ -114,50 +116,52 @@ const TrainerProfiles = () => {
               itemsPerPage={5}
               activePage={page}
               clickableRows
-              onRowClick={item => history.push(`/trainerProfiles/${item.id}`)}
+              onRowClick={(item) => history.push(`/trainerProfiles/${item.id}`)}
             />
             <CPagination
               activePage={page}
               onActivePageChange={pageChange}
               pages={5}
               doubleArrows={false}
-              align='center'
+              align="center"
             />
           </CCardBody>
         </CCard>
 
-        <CButton onClick={toggleOne} className='mr-1'>
+        <CButton onClick={toggleOne} className="mr-1" color="primary">
           Register Trainer Profile
         </CButton>
 
         <CModal show={modalOne} onClose={toggleOne}>
-          <CModalHeader closeButton>Enter Trainer's Profile</CModalHeader>
+          <CModalHeader closeButton className="trainer__profile--text">
+            Enter Trainer's Profile
+          </CModalHeader>
           <form onSubmit={handleSubmit}>
             <CModalBody>
-              <CLabel htmlFor='userId'>User Id</CLabel>
+              <CLabel htmlFor="userId">User Id</CLabel>
               <CInput
-                id='userId'
-                placeholder='Enter the User Id'
+                id="userId"
+                placeholder="Enter the User Id"
                 required
-                name='userId'
+                name="userId"
                 onChange={handleChange}
                 value={item.userId}
               />
-              <CLabel htmlFor='specialization'>Specialization Area(s)</CLabel>
+              <CLabel htmlFor="specialization">Specialization Area(s)</CLabel>
               <CInput
-                id='specialization'
-                placeholder='Enter the specialization area'
+                id="specialization"
+                placeholder="Enter the specialization area"
                 required
-                name='specialization'
+                name="specialization"
                 onChange={handleChange}
                 value={item.specialization}
               />
             </CModalBody>
             <CModalFooter>
-              <CButton color='primary' type='submit'>
+              <CButton color="primary" type="submit">
                 Confirm
-              </CButton>{' '}
-              <CButton color='secondary' onClick={toggleOne}>
+              </CButton>{" "}
+              <CButton color="secondary" onClick={toggleOne}>
                 Cancel
               </CButton>
             </CModalFooter>
@@ -165,7 +169,7 @@ const TrainerProfiles = () => {
         </CModal>
       </CCol>
     </CRow>
-  )
-}
+  );
+};
 
-export default TrainerProfiles
+export default TrainerProfiles;
