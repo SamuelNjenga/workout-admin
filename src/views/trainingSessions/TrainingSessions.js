@@ -30,6 +30,8 @@ import {
   postSession,
 } from "src/services/APIUtils";
 
+import "src/styles/Headers.css";
+
 const getBadge = (status) => {
   switch (status) {
     case status <= new Date():
@@ -231,7 +233,7 @@ const TrainingSessions = () => {
       <CCol xl={6}>
         <CCard>
           <Toaster />
-          <CCardHeader>Training Sessions</CCardHeader>
+          <CCardHeader className="list__title">Training Sessions</CCardHeader>
           <CCardBody>
             <CDataTable
               items={trainingSessions}

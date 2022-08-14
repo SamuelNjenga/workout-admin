@@ -26,6 +26,8 @@ import {
   postMemberRegistration,
 } from "src/services/APIUtils";
 
+import "src/styles/Headers.css";
+
 const getBadge = (status) => {
   switch (status) {
     case status <= new Date():
@@ -155,7 +157,7 @@ const Registrations = () => {
     <CRow>
       <CCol xl={6}>
         <CCard>
-          <CCardHeader>Registration List</CCardHeader>
+          <CCardHeader className="list__title">Registration List</CCardHeader>
           <CCardBody>
             <Toaster />
             <CDataTable

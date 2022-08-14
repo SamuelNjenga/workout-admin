@@ -27,6 +27,8 @@ import {
   activateEquipmentData,
 } from "src/services/APIUtils";
 
+import "src/styles/Headers.css";
+
 const getBadge = (status) => {
   switch (status) {
     case status <= new Date():
@@ -163,7 +165,7 @@ const Equipments = () => {
     <CRow>
       <CCol xl={6}>
         <CCard>
-          <CCardHeader>Equipment List</CCardHeader>
+          <CCardHeader className="list__title">Equipment List</CCardHeader>
           <CCardBody>
             <Toaster />
             <CDataTable

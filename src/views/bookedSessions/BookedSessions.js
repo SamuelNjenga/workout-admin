@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import { useHistory, useLocation } from 'react-router-dom'
 import {
   CBadge,
@@ -12,6 +12,9 @@ import {
 } from '@coreui/react'
 
 import { useBookings } from '../../contexts/BookingContext'
+
+import "src/styles/Headers.css";
+
 
 const getBadge = status => {
   switch (status) {
@@ -60,7 +63,7 @@ const BookedSessions = () => {
     <CRow>
       <CCol xl={6}>
         <CCard>
-          <CCardHeader>Booked Sessions List</CCardHeader>
+          <CCardHeader className="list__title">Booked Sessions List</CCardHeader>
           <CCardBody>
             <CDataTable
               items={bookings}

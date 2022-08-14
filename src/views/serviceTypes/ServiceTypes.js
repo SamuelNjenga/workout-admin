@@ -21,6 +21,8 @@ import {
 import { useServiceTypes } from "../../contexts/ServiceTypeContext";
 import { postServiceType } from "src/services/APIUtils";
 
+import "src/styles/Headers.css";
+
 const getBadge = (status) => {
   switch (status) {
     case status <= new Date():
@@ -98,7 +100,7 @@ const ServiceTypes = () => {
     <CRow>
       <CCol xl={6}>
         <CCard>
-          <CCardHeader>Service Types List</CCardHeader>
+          <CCardHeader className="list__title">Service Types List</CCardHeader>
           <CCardBody>
             <CDataTable
               items={serviceTypes}

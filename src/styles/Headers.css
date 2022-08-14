@@ -1,9 +1,14 @@
 .form__modal--text {
-  font-family: 'Roboto Slab', serif;
+  font-family: "Roboto Slab", serif;
   font-weight: bold;
 }
 
 .form__modal--subtext {
   font-family: "IBM Plex Sans", sans-serif;
+  font-weight: bold;
+}
+
+.list__title {
+  font-family: "Nunito Sans", sans-serif;
   font-weight: bold;
 }

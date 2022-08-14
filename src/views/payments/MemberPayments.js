@@ -27,6 +27,8 @@ import { usePayments } from "../../contexts/PaymentContext";
 import { postPayment, getSearchedMemberPayments } from "src/services/APIUtils";
 import Charts from "./Charts";
 
+import "src/styles/Headers.css";
+
 const getBadge = (status) => {
   switch (status) {
     case status <= new Date():
@@ -183,7 +185,7 @@ const MemberPayments = () => {
     <CRow>
       <CCol xl={6}>
         <CCard>
-          <CCardHeader>Member Payments</CCardHeader>
+          <CCardHeader className="list__title">Member Payments</CCardHeader>
           <CCardBody>
             <Toaster />
             <CDataTable

@@ -22,7 +22,8 @@ import toast, { Toaster } from "react-hot-toast";
 import { useTrainerProfiles } from "src/contexts/TrainerProfileContext";
 import { postTrainerProfile } from "src/services/APIUtils";
 
-import './TrainerProfile.css'
+import "./TrainerProfile.css";
+import "src/styles/Headers.css";
 
 const getBadge = (status) => {
   switch (status) {
@@ -97,7 +98,7 @@ const TrainerProfiles = () => {
       <CCol xl={6}>
         <CCard>
           <Toaster />
-          <CCardHeader>Trainer Profiles</CCardHeader>
+          <CCardHeader className="list__title">Trainer Profiles</CCardHeader>
           <CCardBody>
             <CDataTable
               items={trainerProfiles}

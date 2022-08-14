@@ -22,7 +22,8 @@ import { useRooms } from "../../contexts/RoomContext";
 import { postRoom } from "src/services/APIUtils";
 
 import Charts from "./Charts";
-import "./Charts.css";
+
+import "src/styles/Headers.css";
 
 const getBadge = (status) => {
   switch (status) {
@@ -107,7 +108,7 @@ const Rooms = () => {
     <CRow>
       <CCol xl={8}>
         <CCard>
-          <CCardHeader>Rooms List</CCardHeader>
+          <CCardHeader className="list__title">Rooms List</CCardHeader>
           <CCardBody>
             <CDataTable
               items={rooms}
