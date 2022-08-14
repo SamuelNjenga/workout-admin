@@ -155,7 +155,9 @@ const Rooms = () => {
           View Room Visuals
         </CButton>
         <CModal show={modalOne} onClose={toggleOne}>
-          <CModalHeader closeButton>Register Room</CModalHeader>
+          <CModalHeader closeButton className="form__modal--subtext">
+            Register Room
+          </CModalHeader>
           <form onSubmit={handleSubmitOne}>
             <CModalBody>
               <CLabel htmlFor="label">Room Label</CLabel>
@@ -188,8 +190,8 @@ const Rooms = () => {
           </form>
         </CModal>
         <CModal show={modalTwo} onClose={toggleTwo}>
-          <CModalHeader closeButton className="btn__modal--text">
-            Rooms Size Line Chart
+          <CModalHeader closeButton className="form__modal--subtext">
+            Rooms Size Chart(s)
           </CModalHeader>
           <CModalBody>
             <Charts />
